@@ -1,5 +1,6 @@
 org/wso2/integration/connector/utils/PulsarConstants.class
 org/wso2/integration/connector/pojo/PulsarConnectionConfig.class
+org/wso2/integration/connector/ProducerKey.class
 org/wso2/integration/connector/pojo/PulsarAuthConfig.class
 org/wso2/integration/connector/PulsarConfig.class
 org/wso2/integration/connector/connection/PulsarConnection.class
@@ -9,3 +10,4 @@ org/wso2/integration/connector/pojo/JWTAuthConfig.class
 org/wso2/integration/connector/PulsarProducer.class
 org/wso2/integration/connector/pojo/PulsarSecureConnectionConfig.class
 org/wso2/integration/connector/exception/PulsarConnectorException.class
+org/wso2/integration/connector/connection/PulsarConnectionSetup.class

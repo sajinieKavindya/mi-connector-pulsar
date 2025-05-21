@@ -1,0 +1,298 @@
+{
+  "connectorName": "Pulsar",
+  "connectionName": "pulsarSecure",
+  "title": "Pulsar Connection",
+  "help": "<h1>Apache Pulsar Connector</h1> <b>The Apache Pulsar connector allows you to access the Pulsar Producer API through WSO2 MI and acts as a message producer that facilitates message publishing. The Pulsar connector sends messages to the Apache Pulsar brokers.</b>",
+  "elements": [
+    {
+      "type": "attribute",
+      "value": {
+        "name": "connectionName",
+        "displayName": "Connection Name",
+        "inputType": "string",
+        "defaultValue": "PULSAR_CONNECTION_1",
+        "required": "true",
+        "helpTip": "The name for the pulsar connection",
+        "validation": "nameWithoutSpecialCharactors"
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "serviceUrl",
+              "displayName": "Broker URL",
+              "inputType": "stringOrExpression",
+              "defaultValue": "",
+              "required": "true",
+              "placeholder": "pulsar://",
+              "helpTip": "The Pulsar service URL to connect to (e.g., pulsar://localhost:6650)."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "Advanced",
+        "isCollapsed": true,
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "connectionTimeoutMs",
+              "displayName": "Connection Timeout (ms)",
+              "inputType": "string",
+              "defaultValue": "",
+              "required": "false",
+              "validateType": "number",
+              "helpTip": "Timeout for establishing a connection (in milliseconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "operationTimeoutSeconds",
+              "displayName": "Operation Timeout (seconds)",
+              "inputType": "string",
+              "defaultValue": "",
+              "required": "false",
+              "validateType": "number",
+              "helpTip": "Timeout for client operations (in seconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "statsIntervalSeconds",
+              "displayName": "Stats Interval (seconds)",
+              "inputType": "string",
+              "defaultValue": "",
+              "required": "false",
+              "validateType": "number",
+              "helpTip": "Interval for statistics collection (in seconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "numIoThreads",
+              "displayName": "Number of IO Threads",
+              "inputType": "string",
+              "defaultValue": "",
+              "required": "false",
+              "validateType": "number",
+              "helpTip": "Number of IO threads for Pulsar client."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "numListenerThreads",
+              "displayName": "Number of Listener Threads",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Number of listener threads for Pulsar client."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "useTcpNoDelay",
+              "displayName": "Enable TCP No Delay",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Enable TCP no delay for network connections."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "requestTimeoutMs",
+              "displayName": "Request Timeout (ms)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Timeout for requests (in milliseconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "keepAliveIntervalSeconds",
+              "displayName": "Keep Alive Interval (in seconds)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Keep-alive interval for broker connections (in seconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "maxBackoffIntervalNanos",
+              "displayName": "Max Backoff Interval (in nanoseconds)",
+              "inputType": "string",
+              "defaultValue": "",
+              "validateType": "number",
+              "required": "false",
+              "helpTip": "Maximum backoff interval for reconnection attempts (in nanoseconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "concurrentLookupRequest",
+              "displayName": "Number of Concurrent Lookup Requests",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Number of concurrent lookup requests allowed."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "connectionMaxIdleSeconds",
+              "displayName": "Connection Max Idle Time (in seconds)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Maximum idle time for connections (in seconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "connectionsPerBroker",
+              "displayName": "Number of Connections Per Broker",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Number of connections per broker."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "enableBusyWait",
+              "displayName": "Enable Busy Wait",
+              "inputType": "boolean",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Enable busy-wait for IO threads."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "enableTransaction",
+              "displayName": "Enable Transaction",
+              "inputType": "boolean",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Enable transaction support in Pulsar client."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "initialBackoffIntervalNanos",
+              "displayName": "Initial Backoff Interval (in nanoseconds)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Initial backoff interval for reconnection attempts (in nanoseconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "listenerName",
+              "displayName": "Listener Name",
+              "inputType": "string",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Listener name for the Pulsar client."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "lookupTimeoutMs",
+              "displayName": "Lookup Timeout (in milliseconds)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Timeout for lookup requests (in milliseconds)."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "maxLookupRedirects",
+              "displayName": "Maximum Number of Lookup Redirects",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Maximum number of lookup redirects allowed."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "maxLookupRequest",
+              "displayName": "Maximum Number of Lookup Requests",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Maximum number of lookup requests."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "maxNumberOfRejectedRequestPerConnection",
+              "displayName": "Max Number Of Rejected Request Per Connection",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Maximum number of rejected requests per connection."
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "memoryLimitBytes",
+              "displayName": "Memory Limit (in bytes)",
+              "inputType": "string",
+              "validateType": "number",
+              "defaultValue": "",
+              "required": "false",
+              "helpTip": "Memory limit for Pulsar client (in bytes)."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

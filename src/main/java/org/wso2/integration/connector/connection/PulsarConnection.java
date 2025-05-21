@@ -1,6 +1,7 @@
 package org.wso2.integration.connector.connection;
 
 import org.apache.pulsar.client.api.ClientBuilder;
+import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.synapse.MessageContext;
@@ -24,6 +25,14 @@ public class PulsarConnection implements Connection {
             PulsarConnectionSetup connectionSetup = new PulsarConnectionSetup();
             connectionSetup.constructClientBuilder(configuration, clientBuilder);
             this.client = clientBuilder.build();
+
+//            Producer<String> producer = client.newProducer(Schema.STRING)
+//                    .topic("my-topic")
+//                    .hashingScheme()
+//                    .cryptoFailureAction()
+//                    .messageRoutingMode()
+//                    .create();
+
         } catch (IllegalArgumentException e) {
             PulsarUtils.handleError(messageContext, e, 700000, ERROR_MESSAGE);
         } catch (PulsarClientException e) {
@@ -31,6 +40,11 @@ public class PulsarConnection implements Connection {
         } catch (Exception e) {
             PulsarUtils.handleError(messageContext, e, 900000, ERROR_MESSAGE);
         }
+    }
+
+    public PulsarClient getClient() {
+
+        return client;
     }
 
     @Override

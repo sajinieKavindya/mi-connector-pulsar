@@ -1,0 +1,505 @@
+{
+  "connectorName": "Pulsar",
+  "operationName": "publishMessages",
+  "title": "Publish Messages",
+  "help": "<h1>Publish Messages</h1> <b>The publishMessages operation allows you to publish messages to the Apache Pulsar brokers via topics.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/kafka-connector/kafka-connector-config/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "PublishMessages",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "pulsar",
+                "pulsarSecure"
+              ],
+              "defaultType": "connection.pulsar",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "General",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "topicName",
+                    "displayName": "Topic Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the Pulsar topic to which messages will be published."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "producerName",
+                    "displayName": "Producer Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "A unique identifier for the producer. If not specified, a name will be generated automatically."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sendTimeoutMs",
+                    "displayName": "Send Timeout (ms)",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The timeout in milliseconds for a message to be sent. If the message is not acknowledged within this time, it is marked as failed."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "blockIfQueueFull",
+                    "displayName": "Block If Queue Full",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "Whether the producer should block when the outgoing message queue is full. If false, send operations will fail immediately when the queue is full."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "maxPendingMessages",
+                    "displayName": "Max Pending Messages",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The maximum number of messages allowed to be pending in the outgoing queue."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "maxPendingMessagesAcrossPartitions",
+                    "displayName": "Max Pending Messages Across Partitions",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The maximum number of pending messages across all partitions. This is useful for partitioned topics."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "batchingEnabled",
+                    "displayName": "Batching Enabled",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "true",
+                    "required": "false",
+                    "helpTip": "Whether message batching is enabled for the producer. Batching can improve throughput by sending multiple messages in a single request."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "batchingMaxMessages",
+                    "displayName": "Batching Max Messages",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The maximum number of messages permitted in a batch."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "batchingMaxPublishDelayMicros",
+                    "displayName": "Batching Max Publish Delay (μs)",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The maximum delay in microseconds for batching messages before they are published."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "compressionType",
+                    "displayName": "Compression Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "NONE",
+                    "required": "false",
+                    "helpTip": "The compression type to use for messages. Supported values: NONE, LZ4, ZLIB, ZSTD, SNAPPY."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "hashingScheme",
+                    "displayName": "Hashing Scheme",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "JavaStringHash",
+                    "required": "false",
+                    "helpTip": "The hashing scheme used to determine the partition for a message. Supported values: JavaStringHash, Murmur3_32Hash, BoostHash."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "messageRoutingMode",
+                    "displayName": "Message Routing Mode",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "RoundRobinPartition",
+                    "required": "false",
+                    "helpTip": "The message routing mode for partitioned topics. Supported values: SinglePartition, RoundRobinPartition, CustomPartition."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "chunkingEnabled",
+                    "displayName": "Chunking Enabled",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "Whether chunking is enabled for large messages. If enabled, large messages are split into smaller chunks."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "cryptoFailureAction",
+                    "displayName": "Crypto Failure Action",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "FAIL",
+                    "required": "false",
+                    "helpTip": "The action to take when message encryption fails. Supported values: FAIL, SEND."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "initialSubscriptionName",
+                    "displayName": "Initial Subscription Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The name of the initial subscription to be used when publishing messages with a producer."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Headers",
+              "isCollapsed": true,
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "useTransportHeaders",
+                    "displayName": "Use Transport Headers",
+                    "inputType": "combo",
+                    "defaultValue": "None",
+                    "helpTip": "",
+                    "required": "false",
+                    "comboValues": [
+                      "None",
+                      "All",
+                      "Filtered"
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "kafkaHeaderPrefix",
+                    "displayName": "Header Prefix",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "helpTip": "",
+                    "required": "false",
+                    "enableCondition": [
+                      {
+                        "useTransportHeaders": "Filtered"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "removeHeaderPrefix",
+                    "displayName": "Remove Header Prefix",
+                    "inputType": "boolean",
+                    "defaultValue": "",
+                    "helpTip": "",
+                    "required": "false",
+                    "enableCondition": [
+                      {
+                        "useTransportHeaders": "Filtered"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "removeFilteredAfterSend",
+                    "displayName": "Remove Filtered Headers After Send",
+                    "inputType": "boolean",
+                    "defaultValue": "",
+                    "helpTip": "",
+                    "required": "false",
+                    "enableCondition": [
+                      {
+                        "useTransportHeaders": "Filtered"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "table",
+                  "value": {
+                    "name": "customHeaders",
+                    "displayName": "Custom Headers",
+                    "tableKey": "propertyName",
+                    "tableValue": "propertyValue",
+                    "addParamText": "Add Header",
+                    "helpTip": "Define a fixed list of headers where each value can use expressions to resolve dynamically during execution.",
+                    "elements": [
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "propertyName",
+                          "displayName": "Header Name",
+                          "inputType": "string",
+                          "defaultValue": "",
+                          "required": "true",
+                          "helpTip": "The name of the header."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "propertyValue",
+                          "displayName": "Header Value",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "true",
+                          "helpTip": "The value of the header."
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "customHeaderExpression",
+                    "displayName": "Custom Header Expression",
+                    "inputType": "expression",
+                    "defaultValue": "",
+                    "helpTip": "Inject a dynamic list of headers through an expression evaluated at runtime.",
+                    "required": ""
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Advanced",
+              "isCollapsed": true,
+              "elements": [
+                {
+                  "type": "attributeGroup",
+                  "value": {
+                    "groupName": "Avro Key Schema Configurations",
+                    "isCollapsed": true,
+                    "elements": [
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchema",
+                          "displayName": "Key Schema",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema of the configured key."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchemaId",
+                          "displayName": "Key Schema ID",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema id of the key schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchemaVersion",
+                          "displayName": "Key Schema Version",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Version of the key schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchemaSubject",
+                          "displayName": "Key Schema Subject",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Subject of the key schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchemaMetadata",
+                          "displayName": "Key Schema Metadata",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema metadata of the key schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "keySchemaSoftDeleted",
+                          "displayName": "Is soft deleted key schemas needed",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "false",
+                          "required": "false",
+                          "helpTip": "Whether soft deleted key schemas also need to be considered."
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "attributeGroup",
+                  "value": {
+                    "groupName": "Avro Value Schema Configurations",
+                    "isCollapsed": true,
+                    "elements": [
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchema",
+                          "displayName": "Value Schema",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema of the configured value."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchemaId",
+                          "displayName": "Value Schema ID",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema id of the value schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchemaVersion",
+                          "displayName": "Value Schema Version",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Version of the value schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchemaSubject",
+                          "displayName": "Value Schema Subject",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Subject of the value schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchemaMetadata",
+                          "displayName": "Value Schema Metadata",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "false",
+                          "helpTip": "The Schema metadata of the value schema that is stored in the confluent schema registry."
+                        }
+                      },
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "valueSchemaSoftDeleted",
+                          "displayName": "Is soft deleted value schemas needed",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "false",
+                          "required": "false",
+                          "helpTip": "Whether soft deleted value schemas also need to be considered."
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentType",
+                    "displayName": "Content-Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The Content-Type of the message."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "dlqTopic",
+                    "displayName": "Dead Letter Queue Topic",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "",
+                    "helpTip": "The topic name of the Dead Letter Queue to which the failed messages should be redirected. This is applicable only when the sendCallbackHandler class has support for Dead Letter Queue (DLQ) handling."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
