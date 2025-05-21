@@ -24,7 +24,7 @@ public class ConnectionConfiguration {
 
     public void setUseTlsEncryption(String useTlsEncryption, String serviceUrl) {
 
-        if (serviceUrl.startsWith("pulsar+ssl://")) {
+        if (serviceUrl.startsWith("pulsar+ssl://") || serviceUrl.startsWith("https")) {
             this.useTlsEncryption = true;
         } else if (serviceUrl.startsWith("pulsar://")) {
             this.useTlsEncryption = false;

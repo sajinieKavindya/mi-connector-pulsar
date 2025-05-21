@@ -5,15 +5,9 @@ public class PulsarConstants {
     public static final String CONNECTOR_NAME = "pulsar";
     public static final String CONNECTION_NAME = "name";
 
-    /**
-     * Template parameters for the Pulsar connection.
-     */
-
     // Pulsar connection parameter constants
     public static final String SERVICE_URL = "serviceUrl";
     public static final String AUTHENTICATION = "authentication";
-
-    // Pulsar client configuration constants
     public static final String OPERATION_TIMEOUT_SECONDS = "operationTimeoutSeconds";
     public static final String STATS_INTERVAL_SECONDS = "statsIntervalSeconds";
     public static final String NUM_IO_THREADS = "numIoThreads";
@@ -70,4 +64,21 @@ public class PulsarConstants {
     public static final String AUTO_CERT_REFRESH_SECONDS = "autoCertRefreshSeconds";
 
     public static final String TOKEN = "token";
+
+    // Pulsar producer configuration parameter constants
+    public static final String PRODUCER_TOPIC_NAME = "topicName";
+    public static final String PRODUCER_NAME = "producerName";
+    public static final String SEND_TIMEOUT_MS = "sendTimeoutMs";
+    public static final String BLOCK_IF_QUEUE_FULL = "blockIfQueueFull";
+    public static final String MAX_PENDING_MESSAGES = "maxPendingMessages";
+    public static final String MAX_PENDING_MESSAGES_ACROSS_PARTITIONS = "maxPendingMessagesAcrossPartitions";
+    public static final String BATCHING_ENABLED = "batchingEnabled";
+    public static final String BATCHING_MAX_MESSAGES = "batchingMaxMessages";
+    public static final String BATCHING_MAX_PUBLISH_DELAY_MICROS = "batchingMaxPublishDelayMicros";
+    public static final String COMPRESSION_TYPE = "compressionType";
+    public static final String HASHING_SCHEME = "hashingScheme";
+    public static final String MESSAGE_ROUTING_MODE = "messageRoutingMode";
+    public static final String CHUNKING_ENABLED = "chunkingEnabled";
+    public static final String CRYPTO_FAILURE_ACTION = "cryptoFailureAction";
+    public static final String INITIAL_SUBSCRIPTION_NAME = "initialSubscriptionName";
 }

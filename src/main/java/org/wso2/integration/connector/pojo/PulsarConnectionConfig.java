@@ -1,6 +1,10 @@
 package org.wso2.integration.connector.pojo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pulsar.client.api.ClientBuilder;
+import org.apache.pulsar.client.api.PulsarClient;
+import org.apache.pulsar.client.api.SizeUnit;
+import org.wso2.integration.connector.exception.PulsarConnectorException;
 import org.wso2.integration.connector.utils.PulsarConstants;
 
 import java.util.HashMap;
@@ -15,78 +19,114 @@ public class PulsarConnectionConfig {
     private Integer numListenerThreads;
     private Boolean useTcpNoDelay;
     private Integer requestTimeoutMs;
-    private Integer maxLookupRequests;
-    private Integer maxConcurrentLookupRequests;
-    private Integer maxRejectedRequestsPerConnection;
+    private Integer maxLookupRequest;
     private Integer keepAliveIntervalSeconds;
     private Long maxBackoffIntervalNanos;
     private Integer concurrentLookupRequest;
     private Integer connectionMaxIdleSeconds;
     private Integer connectionTimeoutMs;
     private Integer connectionsPerBroker;
-    private String description;
-    private String dnsLookupBindAddress;
-    private Integer dnsLookupBindPort;
-    private String dnsServerAddresses;
     private Boolean enableBusyWait;
     private Boolean enableTransaction;
     private Long initialBackoffIntervalNanos;
     private String listenerName;
     private Integer lookupTimeoutMs;
     private Integer maxLookupRedirects;
-    private Integer maxLookupRequest;
     private Integer maxNumberOfRejectedRequestPerConnection;
     private Long memoryLimitBytes;
 
-    public Map<String, Object> constructConnectionConfigMap() {
-        Map<String, Object> connectionConfig = new HashMap<>();
-        loadConfig(PulsarConstants.SERVICE_URL, serviceUrl, connectionConfig);
-        loadConfig(PulsarConstants.OPERATION_TIMEOUT_SECONDS, operationTimeoutSeconds, connectionConfig);
-        loadConfig(PulsarConstants.STATS_INTERVAL_SECONDS, statsIntervalSeconds, connectionConfig);
-        loadConfig(PulsarConstants.NUM_IO_THREADS, numIoThreads, connectionConfig);
-        loadConfig(PulsarConstants.NUM_LISTENER_THREADS, numListenerThreads, connectionConfig);
-        loadConfig(PulsarConstants.USE_TCP_NO_DELAY, useTcpNoDelay, connectionConfig);
-        loadConfig(PulsarConstants.REQUEST_TIMEOUT_MS, requestTimeoutMs, connectionConfig);
-        loadConfig(PulsarConstants.MAX_LOOKUP_REQUESTS, maxLookupRequests, connectionConfig);
-        loadConfig(PulsarConstants.MAX_CONCURRENT_LOOKUP_REQUESTS, maxConcurrentLookupRequests, connectionConfig);
-        loadConfig(PulsarConstants.MAX_REJECTED_REQUESTS_PER_CONNECTION, maxRejectedRequestsPerConnection, connectionConfig);
-        loadConfig(PulsarConstants.KEEP_ALIVE_INTERVAL_SECONDS, keepAliveIntervalSeconds, connectionConfig);
-        loadConfig(PulsarConstants.MAX_BACKOFF_INTERVAL_NANOS, maxBackoffIntervalNanos, connectionConfig);
-        loadConfig(PulsarConstants.CONCURRENT_LOOKUP_REQUEST, concurrentLookupRequest, connectionConfig);
-        loadConfig(PulsarConstants.CONNECTION_MAX_IDLE_SECONDS, connectionMaxIdleSeconds, connectionConfig);
-        loadConfig(PulsarConstants.CONNECTION_TIMEOUT_MS, connectionTimeoutMs, connectionConfig);
-        loadConfig(PulsarConstants.CONNECTIONS_PER_BROKER, connectionsPerBroker, connectionConfig);
-        loadConfig(PulsarConstants.DESCRIPTION, description, connectionConfig);
-        loadConfig(PulsarConstants.DNS_LOOKUP_BIND_ADDRESS, dnsLookupBindAddress, connectionConfig);
-        loadConfig(PulsarConstants.DNS_LOOKUP_BIND_PORT, dnsLookupBindPort, connectionConfig);
-        loadConfig(PulsarConstants.DNS_SERVER_ADDRESSES, dnsServerAddresses, connectionConfig);
-        loadConfig(PulsarConstants.ENABLE_BUSY_WAIT, enableBusyWait, connectionConfig);
-        loadConfig(PulsarConstants.ENABLE_TRANSACTION, enableTransaction, connectionConfig);
-        loadConfig(PulsarConstants.INITIAL_BACKOFF_INTERVAL_NANOS, initialBackoffIntervalNanos, connectionConfig);
-        loadConfig(PulsarConstants.LISTENER_NAME, listenerName, connectionConfig);
-        loadConfig(PulsarConstants.LOOKUP_TIMEOUT_MS, lookupTimeoutMs, connectionConfig);
-        loadConfig(PulsarConstants.MAX_LOOKUP_REDIRECTS, maxLookupRedirects, connectionConfig);
-        loadConfig(PulsarConstants.MAX_LOOKUP_REQUEST, maxLookupRequest, connectionConfig);
-        loadConfig(PulsarConstants.MAX_NUMBER_OF_REJECTED_REQUEST_PER_CONNECTION, maxNumberOfRejectedRequestPerConnection, connectionConfig);
-        loadConfig(PulsarConstants.MEMORY_LIMIT_BYTES, memoryLimitBytes, connectionConfig);
-        return connectionConfig;
-    }
-
-    public void loadConfig(String configName, Object configValue, Map<String, Object> connectionConfig) {
-        if (configValue != null) {
-            connectionConfig.put(configName, configValue);
-        }
-    }
+//    public ClientBuilder constructClientBuilder(ClientBuilder builder) {
+//
+//        Map<String, Object> connectionConfig = new HashMap<>();
+//
+//        if (serviceUrl != null) {
+//            builder.serviceUrl(serviceUrl);
+//        }
+//        if (operationTimeoutSeconds != null) {
+//            builder.operationTimeout(operationTimeoutSeconds, java.util.concurrent.TimeUnit.SECONDS);
+//        }
+//        if (statsIntervalSeconds != null) {
+//            builder.statsInterval(statsIntervalSeconds, java.util.concurrent.TimeUnit.SECONDS);
+//        }
+//        if (numIoThreads != null) {
+//            builder.ioThreads(numIoThreads);
+//        }
+//        if (numListenerThreads != null) {
+//            builder.listenerThreads(numListenerThreads);
+//        }
+//        if (useTcpNoDelay != null) {
+//            builder.enableTcpNoDelay(useTcpNoDelay);
+//        }
+//        if (requestTimeoutMs != null) {
+//            builder.operationTimeout(requestTimeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS);
+//        }
+//        if (maxLookupRequest != null) {
+//            builder.maxLookupRequests(maxLookupRequest);
+//        }
+//        if (keepAliveIntervalSeconds != null) {
+//            builder.keepAliveInterval(keepAliveIntervalSeconds, java.util.concurrent.TimeUnit.SECONDS);
+//        }
+//        if (maxBackoffIntervalNanos != null) {
+//            builder.maxBackoffInterval(maxBackoffIntervalNanos, java.util.concurrent.TimeUnit.NANOSECONDS);
+//        }
+//        if (concurrentLookupRequest != null) {
+//            connectionConfig.put(PulsarConstants.CONCURRENT_LOOKUP_REQUEST, concurrentLookupRequest);
+//        }
+//        if (connectionMaxIdleSeconds != null) {
+//            builder.connectionMaxIdleSeconds(connectionMaxIdleSeconds);
+//        }
+//        if (connectionTimeoutMs != null) {
+//            builder.connectionTimeout(connectionTimeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS);
+//        }
+//        if (connectionsPerBroker != null) {
+//            builder.connectionsPerBroker(connectionsPerBroker);
+//        }
+//        if (enableBusyWait != null) {
+//            builder.enableBusyWait(enableBusyWait);
+//        }
+//        if (enableTransaction != null) {
+//            builder.enableTransaction(enableTransaction);
+//        }
+//        if (initialBackoffIntervalNanos != null) {
+//            builder.startingBackoffInterval(initialBackoffIntervalNanos, java.util.concurrent.TimeUnit.NANOSECONDS);
+//        }
+//        if (listenerName != null) {
+//            builder.listenerName(listenerName);
+//        }
+//        if (lookupTimeoutMs != null) {
+//            builder.lookupTimeout(lookupTimeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS);
+//        }
+//        if (maxLookupRedirects != null) {
+//            builder.maxLookupRedirects(maxLookupRedirects);
+//        }
+//        if (maxLookupRequest != null) {
+//            builder.maxLookupRequests(maxLookupRequest);
+//        }
+//        if (maxNumberOfRejectedRequestPerConnection != null) {
+//            builder.maxNumberOfRejectedRequestPerConnection(maxNumberOfRejectedRequestPerConnection);
+//        }
+//        if (memoryLimitBytes != null) {
+//            builder.memoryLimit(memoryLimitBytes, SizeUnit.BYTES);
+//        }
+//
+//        if (!connectionConfig.isEmpty()) {
+//            builder.loadConf(connectionConfig);
+//        }
+//
+//        return builder;
+//    }
 
     public String getServiceUrl() {
 
         return serviceUrl;
     }
 
-    public void setServiceUrl(String serviceUrl) {
+    public void setServiceUrl(String serviceUrl) throws PulsarConnectorException {
 
         if (StringUtils.isNotEmpty(serviceUrl)) {
             this.serviceUrl = serviceUrl;
+        } else {
+            throw new PulsarConnectorException("Mandatory parameter 'serviceUrl' is not set.");
         }
     }
 
@@ -162,42 +202,6 @@ public class PulsarConnectionConfig {
         }
     }
 
-    public Integer getMaxLookupRequests() {
-
-        return maxLookupRequests;
-    }
-
-    public void setMaxLookupRequests(String maxLookupRequests) {
-
-        if (StringUtils.isNotEmpty(maxLookupRequests)) {
-            this.maxLookupRequests = Integer.parseInt(maxLookupRequests);
-        }
-    }
-
-    public Integer getMaxConcurrentLookupRequests() {
-
-        return maxConcurrentLookupRequests;
-    }
-
-    public void setMaxConcurrentLookupRequests(String maxConcurrentLookupRequests) {
-
-        if (StringUtils.isNotEmpty(maxConcurrentLookupRequests)) {
-            this.maxConcurrentLookupRequests = Integer.parseInt(maxConcurrentLookupRequests);
-        }
-    }
-
-    public Integer getMaxRejectedRequestsPerConnection() {
-
-        return maxRejectedRequestsPerConnection;
-    }
-
-    public void setMaxRejectedRequestsPerConnection(String maxRejectedRequestsPerConnection) {
-
-        if (StringUtils.isNotEmpty(maxRejectedRequestsPerConnection)) {
-            this.maxRejectedRequestsPerConnection = Integer.parseInt(maxRejectedRequestsPerConnection);
-        }
-    }
-
     public Integer getKeepAliveIntervalSeconds() {
 
         return keepAliveIntervalSeconds;
@@ -267,54 +271,6 @@ public class PulsarConnectionConfig {
 
         if (StringUtils.isNotEmpty(connectionsPerBroker)) {
             this.connectionsPerBroker = Integer.parseInt(connectionsPerBroker);
-        }
-    }
-
-    public String getDescription() {
-
-        return description;
-    }
-
-    public void setDescription(String description) {
-
-        if (StringUtils.isNotEmpty(description)) {
-            this.description = description;
-        }
-    }
-
-    public String getDnsLookupBindAddress() {
-
-        return dnsLookupBindAddress;
-    }
-
-    public void setDnsLookupBindAddress(String dnsLookupBindAddress) {
-
-        if (StringUtils.isNotEmpty(dnsLookupBindAddress)) {
-            this.dnsLookupBindAddress = dnsLookupBindAddress;
-        }
-    }
-
-    public Integer getDnsLookupBindPort() {
-
-        return dnsLookupBindPort;
-    }
-
-    public void setDnsLookupBindPort(String dnsLookupBindPort) {
-
-        if (StringUtils.isNotEmpty(dnsLookupBindPort)) {
-            this.dnsLookupBindPort = Integer.parseInt(dnsLookupBindPort);
-        }
-    }
-
-    public String getDnsServerAddresses() {
-
-        return dnsServerAddresses;
-    }
-
-    public void setDnsServerAddresses(String dnsServerAddresses) {
-
-        if (StringUtils.isNotEmpty(dnsServerAddresses)) {
-            this.dnsServerAddresses = dnsServerAddresses;
         }
     }
 

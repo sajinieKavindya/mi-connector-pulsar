@@ -55,7 +55,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         }
     }
 
-    private ConnectionConfiguration getConnectionConfigFromContext(MessageContext messageContext) {
+    private ConnectionConfiguration getConnectionConfigFromContext(MessageContext messageContext) throws PulsarConnectorException {
 
         ConnectionConfiguration configuration = new ConnectionConfiguration();
         configuration.setConnectionName((String) getParameter(messageContext, PulsarConstants.CONNECTION_NAME));
@@ -97,7 +97,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
 
     }
 
-    private PulsarConnectionConfig getPulsarConnectionConfigFromContext(MessageContext messageContext, PulsarConnectionConfig config) {
+    private PulsarConnectionConfig getPulsarConnectionConfigFromContext(MessageContext messageContext, PulsarConnectionConfig config) throws PulsarConnectorException {
 
         if (config == null) {
             config = new PulsarConnectionConfig();
@@ -110,19 +110,13 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         config.setNumListenerThreads((String) getParameter(messageContext, PulsarConstants.NUM_LISTENER_THREADS));
         config.setUseTcpNoDelay((String) getParameter(messageContext, PulsarConstants.USE_TCP_NO_DELAY));
         config.setRequestTimeoutMs((String) getParameter(messageContext, PulsarConstants.REQUEST_TIMEOUT_MS));
-        config.setMaxLookupRequests((String) getParameter(messageContext, PulsarConstants.MAX_LOOKUP_REQUESTS));
-        config.setMaxConcurrentLookupRequests((String) getParameter(messageContext, PulsarConstants.MAX_CONCURRENT_LOOKUP_REQUESTS));
-        config.setMaxRejectedRequestsPerConnection((String) getParameter(messageContext, PulsarConstants.MAX_REJECTED_REQUESTS_PER_CONNECTION));
+        config.setMaxLookupRequest((String) getParameter(messageContext, PulsarConstants.MAX_LOOKUP_REQUESTS));
         config.setKeepAliveIntervalSeconds((String) getParameter(messageContext, PulsarConstants.KEEP_ALIVE_INTERVAL_SECONDS));
         config.setMaxBackoffIntervalNanos((String) getParameter(messageContext, PulsarConstants.MAX_BACKOFF_INTERVAL_NANOS));
         config.setConcurrentLookupRequest((String) getParameter(messageContext, PulsarConstants.CONCURRENT_LOOKUP_REQUEST));
         config.setConnectionMaxIdleSeconds((String) getParameter(messageContext, PulsarConstants.CONNECTION_MAX_IDLE_SECONDS));
         config.setConnectionTimeoutMs((String) getParameter(messageContext, PulsarConstants.CONNECTION_TIMEOUT_MS));
         config.setConnectionsPerBroker((String) getParameter(messageContext, PulsarConstants.CONNECTIONS_PER_BROKER));
-        config.setDescription((String) getParameter(messageContext, PulsarConstants.DESCRIPTION));
-        config.setDnsLookupBindAddress((String) getParameter(messageContext, PulsarConstants.DNS_LOOKUP_BIND_ADDRESS));
-        config.setDnsLookupBindPort((String) getParameter(messageContext, PulsarConstants.DNS_LOOKUP_BIND_PORT));
-        config.setDnsServerAddresses((String) getParameter(messageContext, PulsarConstants.DNS_SERVER_ADDRESSES));
         config.setEnableBusyWait((String) getParameter(messageContext, PulsarConstants.ENABLE_BUSY_WAIT));
         config.setEnableTransaction((String) getParameter(messageContext, PulsarConstants.ENABLE_TRANSACTION));
         config.setInitialBackoffIntervalNanos((String) getParameter(messageContext, PulsarConstants.INITIAL_BACKOFF_INTERVAL_NANOS));
@@ -136,12 +130,12 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         return config;
     }
 
-    private PulsarSecureConnectionConfig getPulsarSecureConnectionConfigFromContext(MessageContext messageContext) {
+    private PulsarSecureConnectionConfig getPulsarSecureConnectionConfigFromContext(MessageContext messageContext) throws PulsarConnectorException {
         PulsarSecureConnectionConfig config = new PulsarSecureConnectionConfig();
 
         getPulsarConnectionConfigFromContext(messageContext, config);
         config.setUseTls((String) getParameter(messageContext, PulsarConstants.USE_TLS));
-        config.setAllowTlsInsecureConnection((String) getParameter(messageContext, PulsarConstants.TLS_ALLOW_INSECURE_CONNECTION));
+        config.setTlsAllowInsecureConnection((String) getParameter(messageContext, PulsarConstants.TLS_ALLOW_INSECURE_CONNECTION));
         config.setEnableTlsHostnameVerification((String) getParameter(messageContext, PulsarConstants.TLS_HOSTNAME_VERIFICATION_ENABLE));
         config.setTlsTrustCertsFilePath((String) getParameter(messageContext, PulsarConstants.TLS_TRUST_CERTS_FILE_PATH));
         config.setTlsProtocols((String) getParameter(messageContext, PulsarConstants.TLS_PROTOCOLS));

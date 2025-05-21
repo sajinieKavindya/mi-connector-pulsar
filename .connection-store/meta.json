@@ -1,0 +1,39 @@
+{
+    "name": "Pulsar",
+    "owner": "WSO2",
+    "product": "MI",
+    "category": "Developer Tools",
+    "documentationUrl": "https://mi.docs.wso2.com/en/latest/reference/connectors/kafka-connector/kafka-connector-overview/",
+    "mavenGroupId": "org.wso2.integration.connector",
+    "mavenArtifactId": "mi-connector-pulsar",
+    "description": "The Kafka connector allows you to access the Kafka Producer API through WSO2 MI. Hence, Kafka connector acts as a message producer which facilitates publishing messages from WSO2 MI to Kafka topics.",
+    "status": "Active",
+    "rank": 2,
+    "type": "Connector",
+    "labels": [
+        "integration",
+        "communication"
+    ],
+    "releases": [
+        {
+            "tagName": "v1.0.0",
+            "products": [
+                "MI 4.4.0"
+            ],
+            "operations": [
+                {
+                    "name": "init",
+                    "description": "Configure the Kafka producer",
+                    "isHidden": true
+                }
+            ],
+            "connections": [
+                {
+                    "name": "pulsar",
+                    "description": "Connection for a Kafka cluster."
+                }
+            ],
+            "isHidden": false
+        }
+    ]
+}

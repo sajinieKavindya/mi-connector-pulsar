@@ -1,0 +1,26 @@
+<config>
+    <serviceUrl></serviceUrl>
+    <connectionTimeoutMs></connectionTimeoutMs>
+    <operationTimeoutSeconds></operationTimeoutSeconds>
+    <statsIntervalSeconds></statsIntervalSeconds>
+    <numIoThreads></numIoThreads>
+    <numListenerThreads></numListenerThreads>
+    <useTcpNoDelay></useTcpNoDelay>
+    <requestTimeoutMs></requestTimeoutMs>
+    <keepAliveIntervalSeconds></keepAliveIntervalSeconds>
+    <maxBackoffIntervalNanos></maxBackoffIntervalNanos>
+    <concurrentLookupRequest></concurrentLookupRequest>
+    <connectionMaxIdleSeconds></connectionMaxIdleSeconds>
+
+    <connectionsPerBroker></connectionsPerBroker>
+    <enableBusyWait></enableBusyWait>
+    <enableTransaction></enableTransaction>
+    <initialBackoffIntervalNanos></initialBackoffIntervalNanos>
+    <listenerName></listenerName>
+    <lookupTimeoutMs></lookupTimeoutMs>
+    <maxLookupRedirects></maxLookupRedirects>
+    <maxLookupRequest></maxLookupRequest>
+    <maxNumberOfRejectedRequestPerConnection></maxNumberOfRejectedRequestPerConnection>
+    <memoryLimitBytes></memoryLimitBytes>
+
+</config>

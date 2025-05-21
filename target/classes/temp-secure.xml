@@ -1,0 +1,105 @@
+<config>
+    <name></name>
+    <serviceUrl></serviceUrl>
+    <authentication>
+        <authorizationType></authorizationType>
+        <token></token>
+    </authentication>
+    <operationTimeoutSeconds></operationTimeoutSeconds>
+    <statsIntervalSeconds></statsIntervalSeconds>
+    <numIoThreads></numIoThreads>
+    <numListenerThreads></numListenerThreads>
+    <useTcpNoDelay></useTcpNoDelay>
+    <requestTimeoutMs></requestTimeoutMs>
+    <maxLookupRequests></maxLookupRequests>
+    <maxConcurrentLookupRequests></maxConcurrentLookupRequests>
+    <maxRejectedRequestsPerConnection></maxRejectedRequestsPerConnection>
+    <keepAliveIntervalSeconds></keepAliveIntervalSeconds>
+    <maxBackoffIntervalNanos></maxBackoffIntervalNanos>
+    <concurrentLookupRequest></concurrentLookupRequest>
+    <connectionMaxIdleSeconds></connectionMaxIdleSeconds>
+    <connectionTimeoutMs></connectionTimeoutMs>
+    <connectionsPerBroker></connectionsPerBroker>
+    <dnsLookupBindAddress></dnsLookupBindAddress>
+    <dnsLookupBindPort></dnsLookupBindPort>
+    <dnsServerAddresses></dnsServerAddresses>
+    <enableBusyWait></enableBusyWait>
+    <enableTransaction></enableTransaction>
+    <initialBackoffIntervalNanos></initialBackoffIntervalNanos>
+    <listenerName></listenerName>
+    <lookupTimeoutMs></lookupTimeoutMs>
+    <maxLookupRedirects></maxLookupRedirects>
+    <maxLookupRequest></maxLookupRequest>
+    <maxNumberOfRejectedRequestPerConnection></maxNumberOfRejectedRequestPerConnection>
+    <memoryLimitBytes></memoryLimitBytes>
+
+
+
+    <useTLS enabled="true">
+        <tlsAllowInsecureConnection></tlsAllowInsecureConnection>
+        <enableTlsHostnameVerification></enableTlsHostnameVerification>
+        <tlsTrustCertsFilePath></tlsTrustCertsFilePath>
+        <tlsProtocols></tlsProtocols>
+        <tlsCiphers></tlsCiphers>
+        <useKeyStoreTls></useKeyStoreTls>
+        <tlsTrustStorePath></tlsTrustStorePath>
+        <tlsTrustStorePassword></tlsTrustStorePassword>
+        <tlsTrustStoreType></tlsTrustStoreType>
+        <autoCertRefreshSeconds></autoCertRefreshSeconds>
+    </useTLS>
+
+
+</config>
+
+<config>
+<serviceUrl></serviceUrl>
+<operationTimeoutSeconds></operationTimeoutSeconds>
+<statsIntervalSeconds></statsIntervalSeconds>
+<numIoThreads></numIoThreads>
+<numListenerThreads></numListenerThreads>
+<useTcpNoDelay></useTcpNoDelay>
+<requestTimeoutMs></requestTimeoutMs>
+<maxLookupRequests></maxLookupRequests>
+<maxConcurrentLookupRequests></maxConcurrentLookupRequests>
+<maxRejectedRequestsPerConnection></maxRejectedRequestsPerConnection>
+<keepAliveIntervalSeconds></keepAliveIntervalSeconds>
+<maxBackoffIntervalNanos></maxBackoffIntervalNanos>
+<concurrentLookupRequest></concurrentLookupRequest>
+<connectionMaxIdleSeconds></connectionMaxIdleSeconds>
+<connectionTimeoutMs></connectionTimeoutMs>
+<connectionsPerBroker></connectionsPerBroker>
+<description></description>
+<dnsLookupBindAddress></dnsLookupBindAddress>
+<dnsLookupBindPort></dnsLookupBindPort>
+<dnsServerAddresses></dnsServerAddresses>
+<enableBusyWait></enableBusyWait>
+<enableTransaction></enableTransaction>
+<initialBackoffIntervalNanos></initialBackoffIntervalNanos>
+<listenerName></listenerName>
+<lookupTimeoutMs></lookupTimeoutMs>
+<maxLookupRedirects></maxLookupRedirects>
+<maxLookupRequest></maxLookupRequest>
+<maxNumberOfRejectedRequestPerConnection></maxNumberOfRejectedRequestPerConnection>
+<memoryLimitBytes></memoryLimitBytes>
+<tlsCertificateFilePath></tlsCertificateFilePath>
+<tlsKeyFilePath></tlsKeyFilePath>
+<tlsTrustCertsFilePath></tlsTrustCertsFilePath>
+<tlsAllowInsecureConnection></tlsAllowInsecureConnection>
+<tlsHostnameVerificationEnable></tlsHostnameVerificationEnable>
+<useKeyStoreTls></useKeyStoreTls>
+<tlsTrustStoreType></tlsTrustStoreType>
+<tlsTrustStorePath></tlsTrustStorePath>
+<tlsTrustStorePassword></tlsTrustStorePassword>
+<tlsKeyStoreType></tlsKeyStoreType>
+<tlsKeyStorePath></tlsKeyStorePath>
+<tlsKeyStorePassword></tlsKeyStorePassword>
+<tlsCiphers></tlsCiphers>
+<tlsProtocols></tlsProtocols>
+<useTLS></useTLS>
+<authorizationType></authorizationType>
+<authParamMap></authParamMap>
+<authParams></authParams>
+<authPluginClassName></authPluginClassName>
+<autoCertRefreshSeconds></autoCertRefreshSeconds>
+<token></token>
+</config>

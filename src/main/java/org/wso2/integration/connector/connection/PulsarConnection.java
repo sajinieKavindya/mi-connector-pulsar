@@ -1,5 +1,6 @@
 package org.wso2.integration.connector.connection;
 
+import org.apache.pulsar.client.api.ClientBuilder;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.synapse.MessageContext;
@@ -19,26 +20,14 @@ public class PulsarConnection implements Connection {
     public PulsarConnection(MessageContext messageContext, ConnectionConfiguration configuration) throws Exception {
 
         try {
-            if (configuration.getConnectionConfig() != null) {
-                if (configuration.getAuthConfig() != null) {
-                    this.client = PulsarClient.builder()
-                            .loadConf(configuration.getConnectionConfig().constructConnectionConfigMap())
-                            .authentication(configuration.getAuthConfig().getAuthentication())
-                            .build();
-                } else {
-                    this.client = PulsarClient.builder()
-                            .loadConf(configuration.getConnectionConfig().constructConnectionConfigMap())
-                            .build();
-                }
-            } else {
-                PulsarConnectorException e = new PulsarConnectorException("The connection configuration is null.");
-                PulsarUtils.handleError(messageContext, e, 700000, ERROR_MESSAGE);
-            }
-
-        } catch (PulsarClientException e) {
-            PulsarUtils.handleError(messageContext, e, 908989, ERROR_MESSAGE);
+            ClientBuilder clientBuilder = PulsarClient.builder();
+            PulsarConnectionSetup connectionSetup = new PulsarConnectionSetup();
+            connectionSetup.constructClientBuilder(configuration, clientBuilder);
+            this.client = clientBuilder.build();
         } catch (IllegalArgumentException e) {
             PulsarUtils.handleError(messageContext, e, 700000, ERROR_MESSAGE);
+        } catch (PulsarClientException e) {
+            PulsarUtils.handleError(messageContext, e, 908989, ERROR_MESSAGE);
         } catch (Exception e) {
             PulsarUtils.handleError(messageContext, e, 900000, ERROR_MESSAGE);
         }

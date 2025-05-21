@@ -1,39 +1,74 @@
 package org.wso2.integration.connector.pojo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pulsar.client.api.ClientBuilder;
 import org.wso2.integration.connector.utils.PulsarConstants;
 
 import java.util.Map;
+import java.util.Set;
 
 public class PulsarSecureConnectionConfig extends PulsarConnectionConfig {
 
     private Boolean useTls;
-    private Boolean allowTlsInsecureConnection;
+    private Boolean tlsAllowInsecureConnection;
     private Boolean enableTlsHostnameVerification;
     private String tlsTrustCertsFilePath;
-    private String tlsProtocols;
-    private String tlsCiphers;
+    private Set<String> tlsProtocols;
+    private Set<String> tlsCiphers;
     private Boolean useKeyStoreTls;
     private String tlsTrustStorePath;
     private String tlsTrustStorePassword;
     private String tlsTrustStoreType;
     private Integer autoCertRefreshSeconds;
 
-    public Map<String, Object> constructConnectionConfigMap() {
-        Map<String, Object> connectionConfig = super.constructConnectionConfigMap();
-        loadConfig(PulsarConstants.USE_TLS, useTls, connectionConfig);
-        loadConfig(PulsarConstants.TLS_ALLOW_INSECURE_CONNECTION, allowTlsInsecureConnection, connectionConfig);
-        loadConfig(PulsarConstants.TLS_HOSTNAME_VERIFICATION_ENABLE, enableTlsHostnameVerification, connectionConfig);
-        loadConfig(PulsarConstants.TLS_TRUST_CERTS_FILE_PATH, tlsTrustCertsFilePath, connectionConfig);
-        loadConfig(PulsarConstants.TLS_PROTOCOLS, tlsProtocols, connectionConfig);
-        loadConfig(PulsarConstants.TLS_CIPHERS, tlsCiphers, connectionConfig);
-        loadConfig(PulsarConstants.USE_KEY_STORE_TLS, useKeyStoreTls, connectionConfig);
-        loadConfig(PulsarConstants.TLS_TRUST_STORE_PATH, tlsTrustStorePath, connectionConfig);
-        loadConfig(PulsarConstants.TLS_TRUST_STORE_PASSWORD, tlsTrustStorePassword, connectionConfig);
-        loadConfig(PulsarConstants.TLS_TRUST_STORE_TYPE, tlsTrustStoreType, connectionConfig);
-        loadConfig(PulsarConstants.AUTO_CERT_REFRESH_SECONDS, autoCertRefreshSeconds, connectionConfig);
-        return connectionConfig;
-    }
+//    public ClientBuilder constructClientBuilder(ClientBuilder builder) {
+//        ClientBuilder clientBuilder = super.constructClientBuilder(builder);
+//
+//        if (useTls != null) {
+//            clientBuilder.enableTls(useTls);
+//        }
+//        if (tlsAllowInsecureConnection != null) {
+//            clientBuilder.allowTlsInsecureConnection(tlsAllowInsecureConnection);
+//        }
+//        if (enableTlsHostnameVerification != null) {
+//            clientBuilder.enableTlsHostnameVerification(enableTlsHostnameVerification);
+//        }
+//        if (tlsTrustCertsFilePath != null) {
+//            clientBuilder.tlsTrustCertsFilePath(tlsTrustCertsFilePath);
+//        }
+//        if (tlsProtocols != null) {
+//            clientBuilder.tlsProtocols(tlsProtocols);
+//        }
+//        if (tlsCiphers != null) {
+//            clientBuilder.tlsCiphers(tlsCiphers);
+//        }
+//        if (useKeyStoreTls != null) {
+//            clientBuilder.useKeyStoreTls(useKeyStoreTls);
+//        }
+//        if (tlsTrustStorePath != null) {
+//            clientBuilder.tlsTrustStorePath(tlsTrustStorePath);
+//        }
+//        if (tlsTrustStorePassword != null) {
+//            clientBuilder.tlsTrustStorePassword(tlsTrustStorePassword);
+//        }
+//        if (tlsTrustStoreType != null) {
+//            clientBuilder.tlsTrustStoreType(tlsTrustStoreType);
+//        }
+//        if (autoCertRefreshSeconds != null) {
+//            clientBuilder.autoCertRefreshSeconds(autoCertRefreshSeconds);
+//        }
+//
+////        loadConfig(PulsarConstants.USE_TLS, useTls, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_ALLOW_INSECURE_CONNECTION, tlsAllowInsecureConnection, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_HOSTNAME_VERIFICATION_ENABLE, enableTlsHostnameVerification, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_TRUST_CERTS_FILE_PATH, tlsTrustCertsFilePath, connectionConfig);
+////        loadConfig(PulsarConstants.USE_KEY_STORE_TLS, useKeyStoreTls, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_TRUST_STORE_PATH, tlsTrustStorePath, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_TRUST_STORE_PASSWORD, tlsTrustStorePassword, connectionConfig);
+////        loadConfig(PulsarConstants.TLS_TRUST_STORE_TYPE, tlsTrustStoreType, connectionConfig);
+////        loadConfig(PulsarConstants.AUTO_CERT_REFRESH_SECONDS, autoCertRefreshSeconds, connectionConfig);
+//        return clientBuilder;
+//    }
 
     public Boolean useTls() {
         return useTls;
@@ -45,13 +80,13 @@ public class PulsarSecureConnectionConfig extends PulsarConnectionConfig {
         }
     }
 
-    public Boolean getAllowTlsInsecureConnection() {
-        return allowTlsInsecureConnection;
+    public Boolean getTlsAllowInsecureConnection() {
+        return tlsAllowInsecureConnection;
     }
 
-    public void setAllowTlsInsecureConnection(String allowTlsInsecureConnection) {
-        if (StringUtils.isNotEmpty(allowTlsInsecureConnection)) {
-            this.allowTlsInsecureConnection = Boolean.parseBoolean(allowTlsInsecureConnection);
+    public void setTlsAllowInsecureConnection(String tlsAllowInsecureConnection) {
+        if (StringUtils.isNotEmpty(tlsAllowInsecureConnection)) {
+            this.tlsAllowInsecureConnection = Boolean.parseBoolean(tlsAllowInsecureConnection);
         }
     }
 
@@ -75,23 +110,27 @@ public class PulsarSecureConnectionConfig extends PulsarConnectionConfig {
         }
     }
 
-    public String getTlsProtocols() {
+    public Set<String> getTlsProtocols() {
         return tlsProtocols;
     }
 
     public void setTlsProtocols(String tlsProtocols) {
         if (StringUtils.isNotEmpty(tlsProtocols)) {
-            this.tlsProtocols = tlsProtocols;
+            this.tlsProtocols = new java.util.HashSet<>(java.util.Arrays.asList(tlsProtocols.split(",")));
+        } else {
+            this.tlsProtocols = java.util.Collections.emptySet();
         }
     }
 
-    public String getTlsCiphers() {
+    public Set<String> getTlsCiphers() {
         return tlsCiphers;
     }
 
     public void setTlsCiphers(String tlsCiphers) {
         if (StringUtils.isNotEmpty(tlsCiphers)) {
-            this.tlsCiphers = tlsCiphers;
+            this.tlsCiphers = new java.util.HashSet<>(java.util.Arrays.asList(tlsCiphers.split(",")));
+        } else {
+            this.tlsCiphers = java.util.Collections.emptySet();
         }
     }
 
