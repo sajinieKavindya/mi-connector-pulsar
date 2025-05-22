@@ -1,10 +1,21 @@
 package org.wso2.integration.connector;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.axiom.om.OMOutputFormat;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.transport.MessageFormatter;
+import org.apache.axis2.transport.base.BaseUtils;
+import org.apache.axis2.util.MessageProcessorSelector;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.ProducerBuilder;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
+import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.synapse.MessageContext;
+import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.wso2.integration.connector.connection.PulsarConnection;
 import org.wso2.integration.connector.core.AbstractConnector;
 import org.wso2.integration.connector.core.connection.ConnectionHandler;
@@ -13,6 +24,10 @@ import org.wso2.integration.connector.core.util.ConnectorUtils;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
 import org.wso2.integration.connector.utils.PulsarConstants;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +73,133 @@ public class PulsarProducer extends AbstractConnector {
 
         Producer<byte[]> producer = getProducer(topicName, producerConfig, pulsarClient);
 
+        producer.newMessage()
+                .key("my-key") // Set the message key
+                .eventTime(System.currentTimeMillis()) // Set the event time
+                .sequenceId(1203) // Set the sequenceId for the deduplication purposes
+                .deliverAfter(1, TimeUnit.HOURS) // Delay message delivery for 1 hour
+                .property("my-key", "my-value") // Set the customized metadata
+                .property("my-other-key", "my-other-value")
+                .replicationClusters(
+                        Lists.newArrayList("r1", "r2")) // Set the geo-replication clusters for this message.
+                .value("content")
+                .disableReplication()
+                .send();
+    }
 
+    private void constructMessageBuilder(TypedMessageBuilder messageBuilder, MessageContext messageContext) {
+        String key = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.KEY);
+        if (key != null) {
+            messageBuilder.key(key);
+        }
+
+        String eventTime = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.EVENT_TIME);
+        if (eventTime != null) {
+            messageBuilder.eventTime(Long.parseLong(eventTime));
+        } else {
+            messageBuilder.eventTime(System.currentTimeMillis());
+        }
+
+        String sequenceId = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.SEQUENCE_ID);
+        if (sequenceId != null) {
+            messageBuilder.sequenceId(Long.parseLong(sequenceId));
+        }
+
+        String deliverAfter = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.DELIVER_AFTER);
+        if (deliverAfter != null) {
+            messageBuilder.deliverAfter(Long.parseLong(deliverAfter), TimeUnit.MILLISECONDS);
+        }
+
+        String properties = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.PROPERTY);
+        if (properties != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                JsonNode jsonArray = mapper.readTree(properties);
+                if (jsonArray != null && jsonArray.isArray()) {
+                    for (JsonNode node : jsonArray) {
+                        if (node.isObject()) {
+                            Iterator<Map.Entry<String, JsonNode>> fields = node.fields();
+                            while (fields.hasNext()) {
+                                Map.Entry<String, JsonNode> entry = fields.next();
+                                String propertyKey = entry.getKey();
+                                JsonNode propertyValue = entry.getValue();
+                                if (propertyKey != null && propertyValue.isTextual()) {
+                                    messageBuilder.property(key, propertyValue.asText());
+                                } else {
+                                    log.warn("Skipping non-textual value or null key in custom header entry: " + entry);
+                                }
+                            }
+                        } else {
+                            log.warn("Skipping non-object item in customHeaders array: " + node);
+                        }
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String replicationClusters = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.REPLICATION_CLUSTERS);
+
+        if (replicationClusters != null) {
+            messageBuilder.replicationClusters(Lists.newArrayList(replicationClusters.split(",")));
+        }
+
+        String disableReplication = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.DISABLE_REPLICATION);
+        if (disableReplication != null) {
+            messageBuilder.disableReplication(Boolean.parseBoolean(disableReplication));
+        }
+
+        String value = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.VALUE);
+        if (value != null) {
+            messageBuilder.value(value.getBytes());
+        } else {
+            try {
+                value = getMessage(messageContext);
+            } catch (AxisFault e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
+
+    /**
+     * Get the messages from the message context and format the messages.
+     */
+    private String getMessage(MessageContext messageContext) throws AxisFault {
+
+        Axis2MessageContext axisMsgContext = (Axis2MessageContext) messageContext;
+        org.apache.axis2.context.MessageContext msgContext = axisMsgContext.getAxis2MessageContext();
+        return formatMessage(msgContext);
+    }
+
+    /**
+     * Format the messages when the messages are sent to the kafka broker
+     *
+     * @param messageContext Message Context
+     * @return formatted message
+     * @throws AxisFault if failed to format
+     */
+    private static String formatMessage(org.apache.axis2.context.MessageContext messageContext)
+            throws AxisFault {
+
+        OMOutputFormat format = BaseUtils.getOMOutputFormat(messageContext);
+        MessageFormatter messageFormatter = MessageProcessorSelector.getMessageFormatter(messageContext);
+        StringWriter stringWriter = new StringWriter();
+        OutputStream out = new WriterOutputStream(stringWriter, format.getCharSetEncoding());
+        try {
+            messageFormatter.writeTo(messageContext, format, out, true);
+        } catch (IOException e) {
+            throw new AxisFault("The Error occurs while formatting the message", e);
+        } finally {
+            try {
+                out.close();
+            } catch (Exception e) {
+                throw new AxisFault("The Error occurs while closing the output stream", e);
+            }
+        }
+        return stringWriter.toString();
     }
 
     Producer<byte[]> getProducer(String topic, Map<String, String> config, PulsarClient client) {

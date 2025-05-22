@@ -18,8 +18,8 @@
 -->
 <connector>
     <component name="pulsar" package="org.wso2.integration.connector">
-        <dependency component="config"/>
-        <dependency component="functions"/>
+        <dependency component="pulsar_config"/>
+        <dependency component="pulsar_produce"/>
         <description>WSO2 Apache Pulsar Connector library</description>
     </component>
     <displayName>Pulsar</displayName>

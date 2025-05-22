@@ -1,5 +1,5 @@
 {
-  "connectorName": "Pulsar",
+  "connectorName": "pulsar",
   "connectionName": "pulsarSecure",
   "title": "Pulsar Connection",
   "help": "<h1>Apache Pulsar Connector</h1> <b>The Apache Pulsar connector allows you to access the Pulsar Producer API through WSO2 MI and acts as a message producer that facilitates message publishing. The Pulsar connector sends messages to the Apache Pulsar brokers.</b>",

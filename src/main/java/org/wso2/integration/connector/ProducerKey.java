@@ -6,19 +6,6 @@ import java.util.Objects;
 public class ProducerKey {
 
     String topicName;
-    String sendTimeoutMs;
-    String blockIfQueueFull;
-    String maxPendingMessages;
-    String maxPendingMessagesAcrossPartitions;
-    String batchingEnabled;
-    String batchingMaxMessages;
-    String batchingMaxPublishDelayMicros;
-    String compressionType;
-    String hashingScheme;
-    String messageRoutingMode;
-    String chunkingEnabled;
-    String cryptoFailureAction;
-    String initialSubscriptionName;
 
     private final Map<String, String> config;
 

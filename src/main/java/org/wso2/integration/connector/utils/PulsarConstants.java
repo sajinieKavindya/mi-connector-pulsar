@@ -80,5 +80,6 @@ public class PulsarConstants {
     public static final String MESSAGE_ROUTING_MODE = "messageRoutingMode";
     public static final String CHUNKING_ENABLED = "chunkingEnabled";
     public static final String CRYPTO_FAILURE_ACTION = "cryptoFailureAction";
-    public static final String INITIAL_SUBSCRIPTION_NAME = "initialSubscriptionName";
+
+    public static final String KEY = "key";
 }
