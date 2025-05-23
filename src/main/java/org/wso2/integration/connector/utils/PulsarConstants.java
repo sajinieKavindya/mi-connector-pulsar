@@ -82,4 +82,12 @@ public class PulsarConstants {
     public static final String CRYPTO_FAILURE_ACTION = "cryptoFailureAction";
 
     public static final String KEY = "key";
+    public static final String VALUE = "value";
+    public static final String EVENT_TIME = "eventTime";
+    public static final String SEQUENCE_ID = "sequenceId";
+    public static final String DELIVER_AFTER = "deliverAfter";
+    public static final String PROPERTIES = "properties";
+    public static final String SEND_MODE = "sendMode";
+    public static final String SYNC = "SYNC";
+    public static final String ASYNC = "ASYNC";
 }

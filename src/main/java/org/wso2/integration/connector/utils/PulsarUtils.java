@@ -1,7 +1,10 @@
 package org.wso2.integration.connector.utils;
 
+import com.google.gson.JsonObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.pulsar.client.api.MessageId;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
@@ -14,7 +17,7 @@ public class PulsarUtils {
         // Utility class, prevent instantiation
     }
 
-    public static void setErrorResponse(MessageContext messageContext, Throwable e, int errorCode) {
+    public static void setErrorPropertiesToMessageContext(MessageContext messageContext, Throwable e, int errorCode) {
 
         messageContext.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         messageContext.setProperty(SynapseConstants.ERROR_MESSAGE, e.getMessage());
@@ -25,7 +28,7 @@ public class PulsarUtils {
     public static void handleError(MessageContext messageContext, Throwable e, int errorCode, String message)
             throws PulsarConnectorException {
 
-        setErrorResponse(messageContext, e, errorCode);
+        setErrorPropertiesToMessageContext(messageContext, e, errorCode);
         handleException(message, e);
     }
 
@@ -35,4 +38,37 @@ public class PulsarUtils {
         log.error(message, throwable);
         throw new PulsarConnectorException(message, throwable);
     }
+
+    public static JsonObject buildSuccessResponse(MessageId messageId) {
+
+        // Create a new JSON payload
+        JsonObject resultJson = new JsonObject();
+
+        // Add the basic success information
+        resultJson.addProperty("success", "true");
+        resultJson.addProperty("messageId", messageId.toString());
+
+        return resultJson;
+    }
+
+    public static JsonObject buildErrorResponse(MessageContext messageContext, Throwable e) {
+
+        // Create a new JSON payload
+        JsonObject resultJson = new JsonObject();
+
+        // Add the basic success information
+        resultJson.addProperty("success", "false");
+
+        JsonObject errorJson = new JsonObject();
+
+        setErrorPropertiesToMessageContext(messageContext, e, 500);
+
+        errorJson.addProperty("detail", e.getMessage());
+        errorJson.addProperty("exceptionType", e.getClass().getSimpleName());
+
+        resultJson.add("error", errorJson);
+
+        return resultJson;
+    }
+
 }

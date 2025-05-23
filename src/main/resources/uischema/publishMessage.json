@@ -44,12 +44,45 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "producerName",
-                    "displayName": "Producer Name",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
+                    "name": "compressionType",
+                    "displayName": "Compression Type",
+                    "inputType": "combo",
+                    "defaultValue": "NONE",
                     "required": "false",
-                    "helpTip": "A unique identifier for the producer. If not specified, a name will be generated automatically."
+                    "helpTip": "The compression type to use for messages. Supported values: NONE, LZ4, ZLIB, ZSTD, SNAPPY.",
+                    "comboValues": [
+                      "NONE",
+                      "LZ4",
+                      "ZLIB",
+                      "ZSTD",
+                      "SNAPPY"
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sendMode",
+                    "displayName": "Send Mode",
+                    "inputType": "combo",
+                    "defaultValue": "Sync",
+                    "required": "false",
+                    "helpTip": "Whether chunking is enabled for large messages. If enabled, large messages are split into smaller chunks.",
+                    "comboValues": [
+                      "Sync",
+                      "Async"
+                    ]
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "chunkingEnabled",
+                    "displayName": "Chunking Enabled",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "Whether chunking is enabled for large messages. If enabled, large messages are split into smaller chunks."
                   }
                 },
                 {
@@ -132,17 +165,6 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "compressionType",
-                    "displayName": "Compression Type",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "NONE",
-                    "required": "false",
-                    "helpTip": "The compression type to use for messages. Supported values: NONE, LZ4, ZLIB, ZSTD, SNAPPY."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
                     "name": "hashingScheme",
                     "displayName": "Hashing Scheme",
                     "inputType": "stringOrExpression",
@@ -165,17 +187,6 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "chunkingEnabled",
-                    "displayName": "Chunking Enabled",
-                    "inputType": "booleanOrExpression",
-                    "defaultValue": "false",
-                    "required": "false",
-                    "helpTip": "Whether chunking is enabled for large messages. If enabled, large messages are split into smaller chunks."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
                     "name": "cryptoFailureAction",
                     "displayName": "Crypto Failure Action",
                     "inputType": "stringOrExpression",
@@ -193,125 +204,6 @@
                     "defaultValue": "",
                     "required": "false",
                     "helpTip": "The name of the initial subscription to be used when publishing messages with a producer."
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "attributeGroup",
-            "value": {
-              "groupName": "Headers",
-              "isCollapsed": true,
-              "elements": [
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "useTransportHeaders",
-                    "displayName": "Use Transport Headers",
-                    "inputType": "combo",
-                    "defaultValue": "None",
-                    "helpTip": "",
-                    "required": "false",
-                    "comboValues": [
-                      "None",
-                      "All",
-                      "Filtered"
-                    ]
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "kafkaHeaderPrefix",
-                    "displayName": "Header Prefix",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "helpTip": "",
-                    "required": "false",
-                    "enableCondition": [
-                      {
-                        "useTransportHeaders": "Filtered"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "removeHeaderPrefix",
-                    "displayName": "Remove Header Prefix",
-                    "inputType": "boolean",
-                    "defaultValue": "",
-                    "helpTip": "",
-                    "required": "false",
-                    "enableCondition": [
-                      {
-                        "useTransportHeaders": "Filtered"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "removeFilteredAfterSend",
-                    "displayName": "Remove Filtered Headers After Send",
-                    "inputType": "boolean",
-                    "defaultValue": "",
-                    "helpTip": "",
-                    "required": "false",
-                    "enableCondition": [
-                      {
-                        "useTransportHeaders": "Filtered"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "table",
-                  "value": {
-                    "name": "customHeaders",
-                    "displayName": "Custom Headers",
-                    "tableKey": "propertyName",
-                    "tableValue": "propertyValue",
-                    "addParamText": "Add Header",
-                    "helpTip": "Define a fixed list of headers where each value can use expressions to resolve dynamically during execution.",
-                    "elements": [
-                      {
-                        "type": "attribute",
-                        "value": {
-                          "name": "propertyName",
-                          "displayName": "Header Name",
-                          "inputType": "string",
-                          "defaultValue": "",
-                          "required": "true",
-                          "helpTip": "The name of the header."
-                        }
-                      },
-                      {
-                        "type": "attribute",
-                        "value": {
-                          "name": "propertyValue",
-                          "displayName": "Header Value",
-                          "inputType": "stringOrExpression",
-                          "defaultValue": "",
-                          "required": "true",
-                          "helpTip": "The value of the header."
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "customHeaderExpression",
-                    "displayName": "Custom Header Expression",
-                    "inputType": "expression",
-                    "defaultValue": "",
-                    "helpTip": "Inject a dynamic list of headers through an expression evaluated at runtime.",
-                    "required": ""
                   }
                 }
               ]

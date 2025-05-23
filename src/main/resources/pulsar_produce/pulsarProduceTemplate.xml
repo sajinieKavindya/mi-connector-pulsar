@@ -12,7 +12,9 @@
     <parameter name="messageRoutingMode" description="The message routing mode for partitioned topics. Supported values: SinglePartition, RoundRobinPartition, CustomPartition."/>
     <parameter name="chunkingEnabled" description="Whether chunking is enabled for large messages. If enabled, large messages are split into smaller chunks."/>
     <parameter name="cryptoFailureAction" description="The action to take when message encryption fails. Supported values: FAIL, SEND."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.PulsarProducerConnector"/>
+        <class name="org.wso2.integration.connector.PulsarProducer"/>
     </sequence>
 </template>

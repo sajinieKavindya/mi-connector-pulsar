@@ -3,26 +3,31 @@ package org.wso2.integration.connector;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import org.apache.axiom.om.OMOutputFormat;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.transport.MessageFormatter;
 import org.apache.axis2.transport.base.BaseUtils;
 import org.apache.axis2.util.MessageProcessorSelector;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.pulsar.client.api.MessageId;
 import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.ProducerBuilder;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
+import org.apache.pulsar.client.api.Schema;
 import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.wso2.integration.connector.connection.PulsarConnection;
 import org.wso2.integration.connector.core.AbstractConnector;
+import org.wso2.integration.connector.core.AbstractConnectorOperation;
 import org.wso2.integration.connector.core.connection.ConnectionHandler;
 import org.wso2.integration.connector.core.ConnectException;
 import org.wso2.integration.connector.core.util.ConnectorUtils;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
 import org.wso2.integration.connector.utils.PulsarConstants;
+import org.wso2.integration.connector.utils.PulsarUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,13 +37,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public class PulsarProducer extends AbstractConnector {
+public class PulsarProducer extends AbstractConnectorOperation {
 
     Map<ProducerKey, Producer<byte[]>> producerCache = new ConcurrentHashMap<>();
 
 
     @Override
-    public void connect(MessageContext messageContext) throws ConnectException {
+    public void execute(MessageContext messageContext, String responseVariable, Boolean overwriteBody)
+            throws ConnectException {
         ConnectionHandler handler = ConnectionHandler.getConnectionHandler();
         PulsarConnection pulsarConnection = (PulsarConnection) handler.getConnection(PulsarConstants.CONNECTOR_NAME, getConnectionName(messageContext));
         PulsarClient pulsarClient = pulsarConnection.getClient();
@@ -73,21 +79,33 @@ public class PulsarProducer extends AbstractConnector {
 
         Producer<byte[]> producer = getProducer(topicName, producerConfig, pulsarClient);
 
-        producer.newMessage()
-                .key("my-key") // Set the message key
-                .eventTime(System.currentTimeMillis()) // Set the event time
-                .sequenceId(1203) // Set the sequenceId for the deduplication purposes
-                .deliverAfter(1, TimeUnit.HOURS) // Delay message delivery for 1 hour
-                .property("my-key", "my-value") // Set the customized metadata
-                .property("my-other-key", "my-other-value")
-                .replicationClusters(
-                        Lists.newArrayList("r1", "r2")) // Set the geo-replication clusters for this message.
-                .value("content")
-                .disableReplication()
-                .send();
+        TypedMessageBuilder<byte[]> messageBuilder = producer.newMessage();
+        getMessagePropertiesFromMessageContextAndConstructMessageBuilder(messageBuilder, messageContext);
+
+        // Send the message
+        String sendMode = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.SEND_MODE);
+        if (sendMode != null && sendMode.equalsIgnoreCase(PulsarConstants.ASYNC)) {
+            messageBuilder.sendAsync()
+                    .thenAccept(messageId -> {
+                        log.info("Message sent successfully with ID: " + messageId);
+                    })
+                    .exceptionally(e -> {
+                        log.error("Failed to send message", e);
+                        return null;
+                    });
+        } else {
+            JsonObject resultJSON;
+            try {
+                MessageId messageId = messageBuilder.send();
+                resultJSON = PulsarUtils.buildSuccessResponse(messageId);
+            } catch (PulsarClientException e) {
+                resultJSON = PulsarUtils.buildErrorResponse(messageContext, e);
+            }
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
+        }
     }
 
-    private void constructMessageBuilder(TypedMessageBuilder messageBuilder, MessageContext messageContext) {
+    private void getMessagePropertiesFromMessageContextAndConstructMessageBuilder(TypedMessageBuilder<byte[]> messageBuilder, MessageContext messageContext) throws PulsarConnectorException {
         String key = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.KEY);
         if (key != null) {
             messageBuilder.key(key);
@@ -110,7 +128,7 @@ public class PulsarProducer extends AbstractConnector {
             messageBuilder.deliverAfter(Long.parseLong(deliverAfter), TimeUnit.MILLISECONDS);
         }
 
-        String properties = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.PROPERTY);
+        String properties = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.PROPERTIES);
         if (properties != null) {
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -139,28 +157,17 @@ public class PulsarProducer extends AbstractConnector {
             }
         }
 
-        String replicationClusters = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.REPLICATION_CLUSTERS);
-
-        if (replicationClusters != null) {
-            messageBuilder.replicationClusters(Lists.newArrayList(replicationClusters.split(",")));
-        }
-
-        String disableReplication = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.DISABLE_REPLICATION);
-        if (disableReplication != null) {
-            messageBuilder.disableReplication(Boolean.parseBoolean(disableReplication));
-        }
-
         String value = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.VALUE);
         if (value != null) {
             messageBuilder.value(value.getBytes());
         } else {
             try {
                 value = getMessage(messageContext);
+                messageBuilder.value(value.getBytes());
             } catch (AxisFault e) {
-                throw new RuntimeException(e);
+                throw new PulsarConnectorException("Cannot obtain the message from the message context", e);
             }
         }
-
 
     }
 
