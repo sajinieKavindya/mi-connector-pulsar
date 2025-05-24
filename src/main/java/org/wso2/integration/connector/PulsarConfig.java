@@ -23,6 +23,8 @@ import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseException;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.wso2.integration.connector.connection.PulsarConnection;
+import org.wso2.integration.connector.core.AbstractConnectorOperation;
+import org.wso2.integration.connector.core.ConnectException;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
 import org.wso2.integration.connector.pojo.ConnectionConfiguration;
 import org.wso2.integration.connector.core.AbstractConnector;

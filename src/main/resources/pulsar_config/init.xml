@@ -102,6 +102,6 @@
         <property expression="$func:authPluginClassName" name="pulsar.authPluginClassName"/>
         <property expression="$func:autoCertRefreshSeconds" name="pulsar.autoCertRefreshSeconds"/>
         <property expression="$func:token" name="pulsar.token"/>
-        <class name="org.wso2.integration.connector.PulsarConfigConnector"/>
+        <class name="org.wso2.integration.connector.PulsarConfig"/>
     </sequence>
 </template>

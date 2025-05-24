@@ -17,7 +17,7 @@
 ~  under the License.
 -->
 
-<component name="kafka_produce" type="synapse/template">
+<component name="pulsar_produce" type="synapse/template">
     <subComponents>
         <component name="publishMessages">
             <file>pulsarProduceTemplate.xml</file>

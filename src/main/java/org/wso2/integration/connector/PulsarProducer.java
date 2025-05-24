@@ -9,6 +9,7 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.transport.MessageFormatter;
 import org.apache.axis2.transport.base.BaseUtils;
 import org.apache.axis2.util.MessageProcessorSelector;
+import org.apache.bcel.generic.IF_ACMPEQ;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.pulsar.client.api.MessageId;
 import org.apache.pulsar.client.api.Producer;
@@ -62,11 +63,14 @@ public class PulsarProducer extends AbstractConnectorOperation {
         String messageRoutingMode = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.MESSAGE_ROUTING_MODE);
         String chunkingEnabled = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.CHUNKING_ENABLED);
         String cryptoFailureAction = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.CRYPTO_FAILURE_ACTION);
+        String chunkMaxMessageSize = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.CHUNK_MAX_MESSAGE_SIZE);
+        String batchingMaxBytes = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.BATCHING_MAX_BYTES);
 
         Map<String, String > producerConfig = new ConcurrentHashMap<>();
         producerConfig.put(PulsarConstants.SEND_TIMEOUT_MS, sendTimeoutMs);
         producerConfig.put(PulsarConstants.BLOCK_IF_QUEUE_FULL, blockIfQueueFull);
         producerConfig.put(PulsarConstants.MAX_PENDING_MESSAGES, maxPendingMessages);
+        producerConfig.put(PulsarConstants.BATCHING_MAX_BYTES, batchingMaxBytes);
         producerConfig.put(PulsarConstants.MAX_PENDING_MESSAGES_ACROSS_PARTITIONS, maxPendingMessagesAcrossPartitions);
         producerConfig.put(PulsarConstants.BATCHING_ENABLED, batchingEnabled);
         producerConfig.put(PulsarConstants.BATCHING_MAX_MESSAGES, batchingMaxMessages);
@@ -75,6 +79,7 @@ public class PulsarProducer extends AbstractConnectorOperation {
         producerConfig.put(PulsarConstants.HASHING_SCHEME, hashingScheme);
         producerConfig.put(PulsarConstants.MESSAGE_ROUTING_MODE, messageRoutingMode);
         producerConfig.put(PulsarConstants.CHUNKING_ENABLED, chunkingEnabled);
+        producerConfig.put(PulsarConstants.CHUNK_MAX_MESSAGE_SIZE, chunkMaxMessageSize);
         producerConfig.put(PulsarConstants.CRYPTO_FAILURE_ACTION, cryptoFailureAction);
 
         Producer<byte[]> producer = getProducer(topicName, producerConfig, pulsarClient);
@@ -109,13 +114,6 @@ public class PulsarProducer extends AbstractConnectorOperation {
         String key = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.KEY);
         if (key != null) {
             messageBuilder.key(key);
-        }
-
-        String eventTime = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.EVENT_TIME);
-        if (eventTime != null) {
-            messageBuilder.eventTime(Long.parseLong(eventTime));
-        } else {
-            messageBuilder.eventTime(System.currentTimeMillis());
         }
 
         String sequenceId = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.SEQUENCE_ID);
@@ -156,6 +154,8 @@ public class PulsarProducer extends AbstractConnectorOperation {
                 throw new RuntimeException(e);
             }
         }
+
+        messageBuilder.eventTime(System.currentTimeMillis());
 
         String value = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.VALUE);
         if (value != null) {
@@ -245,6 +245,9 @@ public class PulsarProducer extends AbstractConnectorOperation {
         if (config.get(PulsarConstants.BATCHING_MAX_MESSAGES) != null) {
             builder.batchingMaxMessages(Integer.parseInt(config.get(PulsarConstants.BATCHING_MAX_MESSAGES)));
         }
+        if (config.get(PulsarConstants.BATCHING_MAX_BYTES) != null) {
+            builder.batchingMaxBytes(Integer.parseInt(config.get(PulsarConstants.BATCHING_MAX_BYTES)));
+        }
         if (config.get(PulsarConstants.BATCHING_MAX_PUBLISH_DELAY_MICROS) != null) {
             builder.batchingMaxPublishDelay(Long.parseLong(config.get(PulsarConstants.BATCHING_MAX_PUBLISH_DELAY_MICROS)), TimeUnit.MICROSECONDS);
         }
@@ -259,6 +262,9 @@ public class PulsarProducer extends AbstractConnectorOperation {
         }
         if (config.get(PulsarConstants.CHUNKING_ENABLED) != null) {
             builder.enableChunking(Boolean.parseBoolean(config.get(PulsarConstants.CHUNKING_ENABLED)));
+        }
+        if (config.get(PulsarConstants.CHUNK_MAX_MESSAGE_SIZE) != null) {
+            builder.chunkMaxMessageSize(Integer.parseInt(config.get(PulsarConstants.CHUNK_MAX_MESSAGE_SIZE)));
         }
         if (config.get(PulsarConstants.CRYPTO_FAILURE_ACTION) != null) {
             builder.cryptoFailureAction(org.apache.pulsar.client.api.ProducerCryptoFailureAction.valueOf(config.get(PulsarConstants.CRYPTO_FAILURE_ACTION)));

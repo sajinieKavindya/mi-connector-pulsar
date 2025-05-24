@@ -74,11 +74,13 @@ public class PulsarConstants {
     public static final String MAX_PENDING_MESSAGES_ACROSS_PARTITIONS = "maxPendingMessagesAcrossPartitions";
     public static final String BATCHING_ENABLED = "batchingEnabled";
     public static final String BATCHING_MAX_MESSAGES = "batchingMaxMessages";
+    public static final String BATCHING_MAX_BYTES = "batchingMaxBytes";
     public static final String BATCHING_MAX_PUBLISH_DELAY_MICROS = "batchingMaxPublishDelayMicros";
     public static final String COMPRESSION_TYPE = "compressionType";
     public static final String HASHING_SCHEME = "hashingScheme";
     public static final String MESSAGE_ROUTING_MODE = "messageRoutingMode";
     public static final String CHUNKING_ENABLED = "chunkingEnabled";
+    public static final String CHUNK_MAX_MESSAGE_SIZE = "chunkMaxMessageSize";
     public static final String CRYPTO_FAILURE_ACTION = "cryptoFailureAction";
 
     public static final String KEY = "key";
