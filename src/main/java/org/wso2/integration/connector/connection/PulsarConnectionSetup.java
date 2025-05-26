@@ -7,14 +7,14 @@ import org.wso2.integration.connector.pojo.ConnectionConfiguration;
 import org.wso2.integration.connector.pojo.PulsarConnectionConfig;
 import org.wso2.integration.connector.pojo.PulsarSecureConnectionConfig;
 import org.wso2.integration.connector.utils.PulsarConstants;
-import org.wso2.integration.connector.utils.PulsarUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PulsarConnectionSetup {
 
-    public ClientBuilder constructClientBuilder(ConnectionConfiguration configuration, ClientBuilder builder) throws PulsarConnectorException {
+    public ClientBuilder constructClientBuilder(ConnectionConfiguration configuration, ClientBuilder builder)
+            throws PulsarConnectorException {
 
         PulsarConnectionConfig connectionConfig = configuration.getConnectionConfig();
         if (connectionConfig != null) {

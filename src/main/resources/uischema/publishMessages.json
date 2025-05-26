@@ -227,7 +227,7 @@
                           "name": "hashingScheme",
                           "displayName": "Hashing Scheme",
                           "inputType": "combo",
-                          "defaultValue": "JavaStringHash",
+                          "defaultValue": "",
                           "required": "false",
                           "helpTip": "The hashing scheme used to determine the partition for a message. Supported values: JavaStringHash, Murmur3_32Hash, BoostHash.",
                           "comboValues": [
@@ -243,7 +243,7 @@
                           "name": "messageRoutingMode",
                           "displayName": "Message Routing Mode",
                           "inputType": "combo",
-                          "defaultValue": "RoundRobinPartition",
+                          "defaultValue": "",
                           "required": "false",
                           "helpTip": "The message routing mode for partitioned topics. Supported values: SinglePartition, RoundRobinPartition, CustomPartition.",
                           "comboValues": [
@@ -266,17 +266,6 @@
                             "FAIL",
                             "SEND"
                           ]
-                        }
-                      },
-                      {
-                        "type": "attribute",
-                        "value": {
-                          "name": "initialSubscriptionName",
-                          "displayName": "Initial Subscription Name",
-                          "inputType": "string",
-                          "defaultValue": "",
-                          "required": "false",
-                          "helpTip": "The name of the initial subscription to be used when publishing messages with a producer."
                         }
                       }
                     ]

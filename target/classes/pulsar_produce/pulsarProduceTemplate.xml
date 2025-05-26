@@ -14,6 +14,12 @@
     <parameter name="cryptoFailureAction" description="The action to take when message encryption fails. Supported values: FAIL, SEND."/>
     <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
     <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
+    <parameter name="key" description="The key associated with the message for partitioning or routing."/>
+    <parameter name="value" description="The value or payload of the message to be published."/>
+    <parameter name="sequenceId" description="The sequence ID to assign to the message for deduplication or ordering."/>
+    <parameter name="deliverAfter" description="The delay duration after which the message should be delivered (e.g., 5s, 1m)."/>
+    <parameter name="properties" description="Custom properties to attach to the message as key-value pairs."/>
+    <parameter name="sendMode" description="The mode for sending the message: SYNC (wait for ack) or ASYNC (send and continue)."/>
     <sequence>
         <class name="org.wso2.integration.connector.PulsarProducer"/>
     </sequence>

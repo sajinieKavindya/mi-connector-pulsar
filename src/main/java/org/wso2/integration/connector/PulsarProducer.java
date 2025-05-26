@@ -33,6 +33,7 @@ import org.wso2.integration.connector.utils.PulsarUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PulsarProducer extends AbstractConnectorOperation {
 
-    Map<ProducerKey, Producer<byte[]>> producerCache = new ConcurrentHashMap<>();
+    Map<ProducerKey, Producer<String>> producerCache = new ConcurrentHashMap<>();
 
 
     @Override
@@ -66,7 +67,7 @@ public class PulsarProducer extends AbstractConnectorOperation {
         String chunkMaxMessageSize = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.CHUNK_MAX_MESSAGE_SIZE);
         String batchingMaxBytes = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.BATCHING_MAX_BYTES);
 
-        Map<String, String > producerConfig = new ConcurrentHashMap<>();
+        Map<String, String> producerConfig = new HashMap<>();
         producerConfig.put(PulsarConstants.SEND_TIMEOUT_MS, sendTimeoutMs);
         producerConfig.put(PulsarConstants.BLOCK_IF_QUEUE_FULL, blockIfQueueFull);
         producerConfig.put(PulsarConstants.MAX_PENDING_MESSAGES, maxPendingMessages);
@@ -82,9 +83,9 @@ public class PulsarProducer extends AbstractConnectorOperation {
         producerConfig.put(PulsarConstants.CHUNK_MAX_MESSAGE_SIZE, chunkMaxMessageSize);
         producerConfig.put(PulsarConstants.CRYPTO_FAILURE_ACTION, cryptoFailureAction);
 
-        Producer<byte[]> producer = getProducer(topicName, producerConfig, pulsarClient);
+        Producer<String> producer = getProducer(topicName, producerConfig, pulsarClient);
 
-        TypedMessageBuilder<byte[]> messageBuilder = producer.newMessage();
+        TypedMessageBuilder<String> messageBuilder = producer.newMessage();
         getMessagePropertiesFromMessageContextAndConstructMessageBuilder(messageBuilder, messageContext);
 
         // Send the message
@@ -110,7 +111,7 @@ public class PulsarProducer extends AbstractConnectorOperation {
         }
     }
 
-    private void getMessagePropertiesFromMessageContextAndConstructMessageBuilder(TypedMessageBuilder<byte[]> messageBuilder, MessageContext messageContext) throws PulsarConnectorException {
+    private void getMessagePropertiesFromMessageContextAndConstructMessageBuilder(TypedMessageBuilder<String> messageBuilder, MessageContext messageContext) throws PulsarConnectorException {
         String key = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.KEY);
         if (key != null) {
             messageBuilder.key(key);
@@ -140,7 +141,7 @@ public class PulsarProducer extends AbstractConnectorOperation {
                                 String propertyKey = entry.getKey();
                                 JsonNode propertyValue = entry.getValue();
                                 if (propertyKey != null && propertyValue.isTextual()) {
-                                    messageBuilder.property(key, propertyValue.asText());
+                                    messageBuilder.property(propertyKey, propertyValue.asText());
                                 } else {
                                     log.warn("Skipping non-textual value or null key in custom header entry: " + entry);
                                 }
@@ -159,11 +160,11 @@ public class PulsarProducer extends AbstractConnectorOperation {
 
         String value = (String) ConnectorUtils.lookupTemplateParamater(messageContext, PulsarConstants.VALUE);
         if (value != null) {
-            messageBuilder.value(value.getBytes());
+            messageBuilder.value(value);
         } else {
             try {
                 value = getMessage(messageContext);
-                messageBuilder.value(value.getBytes());
+                messageBuilder.value(value);
             } catch (AxisFault e) {
                 throw new PulsarConnectorException("Cannot obtain the message from the message context", e);
             }
@@ -209,12 +210,12 @@ public class PulsarProducer extends AbstractConnectorOperation {
         return stringWriter.toString();
     }
 
-    Producer<byte[]> getProducer(String topic, Map<String, String> config, PulsarClient client) {
+    Producer<String> getProducer(String topic, Map<String, String> config, PulsarClient client) {
         ProducerKey key = new ProducerKey(topic, config);
 
         return producerCache.computeIfAbsent(key, k -> {
             try {
-                ProducerBuilder<byte[]> builder = client.newProducer()
+                ProducerBuilder<String> builder = client.newProducer(Schema.STRING)
                         .topic(topic);
 
                 applyConfig(builder, config); // Apply batching, compression, etc.
@@ -226,7 +227,7 @@ public class PulsarProducer extends AbstractConnectorOperation {
         });
     }
 
-    void applyConfig(ProducerBuilder<byte[]> builder, Map<String, String> config) {
+    void applyConfig(ProducerBuilder<String> builder, Map<String, String> config) {
         if (config.get(PulsarConstants.SEND_TIMEOUT_MS) != null) {
             builder.sendTimeout(Integer.parseInt(config.get(PulsarConstants.SEND_TIMEOUT_MS)), TimeUnit.MILLISECONDS);
         }

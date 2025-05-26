@@ -26,13 +26,6 @@ public class PulsarConnection implements Connection {
             connectionSetup.constructClientBuilder(configuration, clientBuilder);
             this.client = clientBuilder.build();
 
-//            Producer<String> producer = client.newProducer(Schema.STRING)
-//                    .topic("my-topic")
-//                    .hashingScheme()
-//                    .cryptoFailureAction()
-//                    .messageRoutingMode()
-//                    .create();
-
         } catch (IllegalArgumentException e) {
             PulsarUtils.handleError(messageContext, e, 700000, ERROR_MESSAGE);
         } catch (PulsarClientException e) {
