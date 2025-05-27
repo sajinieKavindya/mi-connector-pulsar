@@ -23,8 +23,6 @@ import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseException;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.wso2.integration.connector.connection.PulsarConnection;
-import org.wso2.integration.connector.core.AbstractConnectorOperation;
-import org.wso2.integration.connector.core.ConnectException;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
 import org.wso2.integration.connector.pojo.ConnectionConfiguration;
 import org.wso2.integration.connector.core.AbstractConnector;
@@ -77,7 +75,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
             switch (authType) {
                 case PulsarConstants.AUTH_JWT:
                     JWTAuthConfig jwtAuthConfig = new JWTAuthConfig();
-                    jwtAuthConfig.setToken((String) getParameter(messageContext, PulsarConstants.TOKEN));
+                    jwtAuthConfig.setToken((String) getParameter(messageContext, PulsarConstants.JWT_TOKEN));
                     configuration.setAuthConfig(jwtAuthConfig);
                     break;
                 case PulsarConstants.AUTH_OAUTH2:
@@ -115,6 +113,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         config.setKeepAliveIntervalSeconds((String) getParameter(messageContext, PulsarConstants.KEEP_ALIVE_INTERVAL_SECONDS));
         config.setMaxBackoffIntervalNanos((String) getParameter(messageContext, PulsarConstants.MAX_BACKOFF_INTERVAL_NANOS));
         config.setConcurrentLookupRequest((String) getParameter(messageContext, PulsarConstants.CONCURRENT_LOOKUP_REQUEST));
+        config.setMaxConcurrentLookupRequests((String) getParameter(messageContext, PulsarConstants.MAX_CONCURRENT_LOOKUP_REQUESTS));
         config.setConnectionMaxIdleSeconds((String) getParameter(messageContext, PulsarConstants.CONNECTION_MAX_IDLE_SECONDS));
         config.setConnectionTimeoutMs((String) getParameter(messageContext, PulsarConstants.CONNECTION_TIMEOUT_MS));
         config.setConnectionsPerBroker((String) getParameter(messageContext, PulsarConstants.CONNECTIONS_PER_BROKER));

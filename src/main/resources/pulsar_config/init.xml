@@ -29,8 +29,6 @@
     <parameter name="maxLookupRequest" description="Maximum number of lookup requests."/>
     <parameter name="maxNumberOfRejectedRequestPerConnection" description="Maximum number of rejected requests per connection."/>
     <parameter name="memoryLimitBytes" description="Memory limit for Pulsar client (in bytes)."/>
-    <parameter name="tlsCertificateFilePath" description="Path to the TLS certificate file."/>
-    <parameter name="tlsKeyFilePath" description="Path to the TLS key file."/>
     <parameter name="tlsTrustCertsFilePath" description="Path to the TLS trust certificates file."/>
     <parameter name="tlsAllowInsecureConnection" description="Allow insecure TLS connections."/>
     <parameter name="enableTlsHostnameVerification" description="Enable hostname verification for TLS connections."/>
@@ -38,18 +36,20 @@
     <parameter name="tlsTrustStoreType" description="Type of the TLS trust store."/>
     <parameter name="tlsTrustStorePath" description="Path to the TLS trust store."/>
     <parameter name="tlsTrustStorePassword" description="Password for the TLS trust store."/>
-    <parameter name="tlsKeyStoreType" description="Type of the TLS key store."/>
-    <parameter name="tlsKeyStorePath" description="Path to the TLS key store."/>
-    <parameter name="tlsKeyStorePassword" description="Password for the TLS key store."/>
     <parameter name="tlsCiphers" description="List of enabled TLS ciphers."/>
     <parameter name="tlsProtocols" description="List of enabled TLS protocols."/>
     <parameter name="useTLS" description="Enable TLS for Pulsar client connection."/>
+    <parameter name="tlsCertificateFilePath" description="Path to the TLS certificate file."/>
+    <parameter name="tlsKeyFilePath" description="Path to the TLS key file."/>
+    <parameter name="tlsKeyStoreType" description="Type of the TLS key store."/>
+    <parameter name="tlsKeyStorePath" description="Path to the TLS key store."/>
+    <parameter name="tlsKeyStorePassword" description="Password for the TLS key store."/>
+    <parameter name="autoCertRefreshSeconds" description="Interval for automatic certificate refresh (in seconds)."/>
     <parameter name="authorizationType" description="Type of authorization (e.g., JWT, TLS, OAUTH2, NONE)."/>
     <parameter name="authParamMap" description="Map of authentication parameters."/>
     <parameter name="authParams" description="Authentication parameters string."/>
     <parameter name="authPluginClassName" description="Class name of the authentication plugin."/>
-    <parameter name="autoCertRefreshSeconds" description="Interval for automatic certificate refresh (in seconds)."/>
-    <parameter name="token" description="Authentication token for Pulsar client."/>
+    <parameter name="jwtToken" description="JWT token for Pulsar client."/>
     <sequence>
         <property expression="$func:name" name="name"/>
         <property expression="$func:serviceUrl" name="pulsar.serviceUrl"/>
@@ -97,11 +97,11 @@
         <property expression="$func:tlsProtocols" name="pulsar.tlsProtocols"/>
         <property expression="$func:useTLS" name="pulsar.useTLS"/>
         <property expression="$func:authorizationType" name="pulsar.authorizationType"/>
+        <property expression="$func:jwtToken" name="pulsar.jwtToken"/>
         <property expression="$func:authParamMap" name="pulsar.authParamMap"/>
         <property expression="$func:authParams" name="pulsar.authParams"/>
         <property expression="$func:authPluginClassName" name="pulsar.authPluginClassName"/>
         <property expression="$func:autoCertRefreshSeconds" name="pulsar.autoCertRefreshSeconds"/>
-        <property expression="$func:token" name="pulsar.token"/>
         <class name="org.wso2.integration.connector.PulsarConfig"/>
     </sequence>
 </template>

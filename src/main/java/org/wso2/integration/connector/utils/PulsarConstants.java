@@ -16,17 +16,12 @@ public class PulsarConstants {
     public static final String REQUEST_TIMEOUT_MS = "requestTimeoutMs";
     public static final String MAX_LOOKUP_REQUESTS = "maxLookupRequests";
     public static final String MAX_CONCURRENT_LOOKUP_REQUESTS = "maxConcurrentLookupRequests";
-    public static final String MAX_REJECTED_REQUESTS_PER_CONNECTION = "maxRejectedRequestsPerConnection";
     public static final String KEEP_ALIVE_INTERVAL_SECONDS = "keepAliveIntervalSeconds";
     public static final String MAX_BACKOFF_INTERVAL_NANOS = "maxBackoffIntervalNanos";
     public static final String CONCURRENT_LOOKUP_REQUEST = "concurrentLookupRequest";
     public static final String CONNECTION_MAX_IDLE_SECONDS = "connectionMaxIdleSeconds";
     public static final String CONNECTION_TIMEOUT_MS = "connectionTimeoutMs";
     public static final String CONNECTIONS_PER_BROKER = "connectionsPerBroker";
-    public static final String DESCRIPTION = "description";
-    public static final String DNS_LOOKUP_BIND_ADDRESS = "dnsLookupBindAddress";
-    public static final String DNS_LOOKUP_BIND_PORT = "dnsLookupBindPort";
-    public static final String DNS_SERVER_ADDRESSES = "dnsServerAddresses";
     public static final String ENABLE_BUSY_WAIT = "enableBusyWait";
     public static final String ENABLE_TRANSACTION = "enableTransaction";
     public static final String INITIAL_BACKOFF_INTERVAL_NANOS = "initialBackoffIntervalNanos";
@@ -37,8 +32,7 @@ public class PulsarConstants {
     public static final String MAX_NUMBER_OF_REJECTED_REQUEST_PER_CONNECTION = "maxNumberOfRejectedRequestPerConnection";
     public static final String MEMORY_LIMIT_BYTES = "memoryLimitBytes";
 
-    public static final String TLS_CERTIFICATE_FILE_PATH = "tlsCertificateFilePath";
-    public static final String TLS_KEY_FILE_PATH = "tlsKeyFilePath";
+
     public static final String TLS_TRUST_CERTS_FILE_PATH = "tlsTrustCertsFilePath";
     public static final String TLS_ALLOW_INSECURE_CONNECTION = "tlsAllowInsecureConnection";
     public static final String TLS_HOSTNAME_VERIFICATION_ENABLE = "tlsHostnameVerificationEnable";
@@ -46,12 +40,14 @@ public class PulsarConstants {
     public static final String TLS_TRUST_STORE_TYPE = "tlsTrustStoreType";
     public static final String TLS_TRUST_STORE_PATH = "tlsTrustStorePath";
     public static final String TLS_TRUST_STORE_PASSWORD = "tlsTrustStorePassword";
-    public static final String TLS_KEY_STORE_TYPE = "tlsKeyStoreType";
-    public static final String TLS_KEY_STORE_PATH = "tlsKeyStorePath";
-    public static final String TLS_KEY_STORE_PASSWORD = "tlsKeyStorePassword";
     public static final String TLS_CIPHERS = "tlsCiphers";
     public static final String TLS_PROTOCOLS = "tlsProtocols";
     public static final String USE_TLS = "useTLS";
+    public static final String TLS_CERTIFICATE_FILE_PATH = "tlsCertificateFilePath";
+    public static final String TLS_KEY_FILE_PATH = "tlsKeyFilePath";
+    public static final String TLS_KEY_STORE_TYPE = "tlsKeyStoreType";
+    public static final String TLS_KEY_STORE_PATH = "tlsKeyStorePath";
+    public static final String TLS_KEY_STORE_PASSWORD = "tlsKeyStorePassword";
 
     public static final String AUTH_TYPE = "authorizationType";
     public static final String AUTH_JWT = "JWT";
@@ -63,7 +59,7 @@ public class PulsarConstants {
     public static final String AUTH_PLUGIN_CLASS_NAME = "authPluginClassName";
     public static final String AUTO_CERT_REFRESH_SECONDS = "autoCertRefreshSeconds";
 
-    public static final String TOKEN = "token";
+    public static final String JWT_TOKEN = "jwtToken";
 
     // Pulsar producer configuration parameter constants
     public static final String PRODUCER_TOPIC_NAME = "topicName";

@@ -29,6 +29,7 @@
               "inputType": "stringOrExpression",
               "required": "true",
               "defaultValue": "pulsar+ssl://",
+              "matchPattern": "^pulsar\\+ssl://",
               "helpTip": "The Pulsar service URL to connect to (e.g., pulsar://localhost:6650)."
             }
           }
@@ -61,7 +62,7 @@
           {
             "type": "attribute",
             "value": {
-              "name": "token",
+              "name": "jwtToken",
               "displayName": "JWT Token",
               "inputType": "stringOrExpression",
               "defaultValue": "",
@@ -129,12 +130,12 @@
           {
             "type": "attribute",
             "value": {
-              "name": "tlsTrustStorePassword",
-              "displayName": "TLS TrustStore Password",
+              "name": "tlsTrustStoreType",
+              "displayName": "TLS TrustStore Type",
               "inputType": "stringOrExpression",
               "defaultValue": "",
               "required": "false",
-              "helpTip": "Password for the TLS trust store.",
+              "helpTip": "Type of the TLS trust store (e.g., JKS, PKCS12).",
               "enableCondition": [
                 {
                   "tlsAllowInsecureConnection": "false"
@@ -145,12 +146,12 @@
           {
             "type": "attribute",
             "value": {
-              "name": "tlsTrustStoreType",
-              "displayName": "TLS TrustStore Type",
+              "name": "tlsTrustStorePassword",
+              "displayName": "TLS TrustStore Password",
               "inputType": "stringOrExpression",
               "defaultValue": "",
               "required": "false",
-              "helpTip": "Type of the TLS trust store (e.g., JKS, PKCS12).",
+              "helpTip": "Password for the TLS trust store.",
               "enableCondition": [
                 {
                   "tlsAllowInsecureConnection": "false"
@@ -422,6 +423,18 @@
                     "defaultValue": "",
                     "required": "false",
                     "helpTip": "Number of concurrent lookup requests allowed."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "maxConcurrentLookupRequests",
+                    "displayName": "Maximum Number of Concurrent Lookup Requests",
+                    "inputType": "stringOrExpression",
+                    "validateType": "number",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Maximum number of concurrent lookup requests allowed."
                   }
                 },
                 {

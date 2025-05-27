@@ -23,6 +23,7 @@ public class PulsarConnectionConfig {
     private Integer keepAliveIntervalSeconds;
     private Long maxBackoffIntervalNanos;
     private Integer concurrentLookupRequest;
+    private Integer maxConcurrentLookupRequests;
     private Integer connectionMaxIdleSeconds;
     private Integer connectionTimeoutMs;
     private Integer connectionsPerBroker;
@@ -154,6 +155,18 @@ public class PulsarConnectionConfig {
 
         if (StringUtils.isNotEmpty(concurrentLookupRequest)) {
             this.concurrentLookupRequest = Integer.parseInt(concurrentLookupRequest);
+        }
+    }
+
+    public Integer getMaxConcurrentLookupRequests() {
+
+        return maxConcurrentLookupRequests;
+    }
+
+    public void setMaxConcurrentLookupRequests(String maxConcurrentLookupRequests) {
+
+        if (StringUtils.isNotEmpty(maxConcurrentLookupRequests)) {
+            this.maxConcurrentLookupRequests = Integer.parseInt(maxConcurrentLookupRequests);
         }
     }
 

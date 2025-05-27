@@ -110,6 +110,9 @@ public class PulsarConnectionSetup {
         if (connectionConfig.getConcurrentLookupRequest() != null) {
             configMap.put(PulsarConstants.CONCURRENT_LOOKUP_REQUEST, connectionConfig.getConcurrentLookupRequest());
         }
+        if (connectionConfig.getMaxConcurrentLookupRequests() != null) {
+            clientBuilder.maxConcurrentLookupRequests(connectionConfig.getMaxConcurrentLookupRequests());
+        }
         if (connectionConfig.getConnectionMaxIdleSeconds() != null) {
             clientBuilder.connectionMaxIdleSeconds(connectionConfig.getConnectionMaxIdleSeconds());
         }

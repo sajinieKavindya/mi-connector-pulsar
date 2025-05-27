@@ -29,6 +29,7 @@
               "inputType": "stringOrExpression",
               "required": "true",
               "defaultValue": "pulsar://",
+              "matchPattern": "^pulsar://",
               "helpTip": "The Pulsar service URL to connect to (e.g., pulsar://localhost:6650)."
             }
           }
@@ -215,6 +216,18 @@
                     "defaultValue": "",
                     "required": "false",
                     "helpTip": "Number of concurrent lookup requests allowed."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "maxConcurrentLookupRequests",
+                    "displayName": "Maximum Number of Concurrent Lookup Requests",
+                    "inputType": "stringOrExpression",
+                    "validateType": "number",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Maximum number of concurrent lookup requests allowed."
                   }
                 },
                 {
