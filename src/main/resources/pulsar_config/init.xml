@@ -12,7 +12,7 @@
     <parameter name="maxConcurrentLookupRequests" description="Maximum number of concurrent lookup requests allowed on each broker connection."/>
     <parameter name="maxRejectedRequestsPerConnection" description="Maximum number of rejected requests per connection."/>
     <parameter name="keepAliveIntervalSeconds" description="Keep-alive interval for broker connections (in seconds)."/>
-    <parameter name="maxBackoffIntervalNanos" description="Maximum backoff interval for reconnection attempts (in nanoseconds)."/>
+    <parameter name="maxBackoffInterval" description="Maximum backoff interval for reconnection attempts (in milliseconds)."/>
     <parameter name="concurrentLookupRequest" description="Number of concurrent lookup requests allowed."/>
     <parameter name="connectionMaxIdleSeconds" description="Maximum idle time for connections (in seconds)."/>
     <parameter name="connectionTimeoutMs" description="Timeout for establishing a connection (in milliseconds)."/>
@@ -22,7 +22,7 @@
     <parameter name="dnsServerAddresses" description="DNS server addresses to use for lookups."/>
     <parameter name="enableBusyWait" description="Enable busy-wait for IO threads."/>
     <parameter name="enableTransaction" description="Enable transaction support in Pulsar client."/>
-    <parameter name="initialBackoffIntervalNanos" description="Initial backoff interval for reconnection attempts (in nanoseconds)."/>
+    <parameter name="initialBackoffInterval" description="Initial backoff interval for reconnection attempts (in milliseconds)."/>
     <parameter name="listenerName" description="Listener name for the Pulsar client."/>
     <parameter name="lookupTimeoutMs" description="Timeout for lookup requests (in milliseconds)."/>
     <parameter name="maxLookupRedirects" description="Maximum number of lookup redirects allowed."/>
@@ -64,7 +64,7 @@
         <property expression="$func:maxConcurrentLookupRequests" name="pulsar.maxConcurrentLookupRequests"/>
         <property expression="$func:maxRejectedRequestsPerConnection" name="pulsar.maxRejectedRequestsPerConnection"/>
         <property expression="$func:keepAliveIntervalSeconds" name="pulsar.keepAliveIntervalSeconds"/>
-        <property expression="$func:maxBackoffIntervalNanos" name="pulsar.maxBackoffIntervalNanos"/>
+        <property expression="$func:maxBackoffInterval" name="pulsar.maxBackoffInterval"/>
         <property expression="$func:concurrentLookupRequest" name="pulsar.concurrentLookupRequest"/>
         <property expression="$func:connectionMaxIdleSeconds" name="pulsar.connectionMaxIdleSeconds"/>
         <property expression="$func:connectionTimeoutMs" name="pulsar.connectionTimeoutMs"/>
@@ -74,7 +74,7 @@
         <property expression="$func:dnsServerAddresses" name="pulsar.dnsServerAddresses"/>
         <property expression="$func:enableBusyWait" name="pulsar.enableBusyWait"/>
         <property expression="$func:enableTransaction" name="pulsar.enableTransaction"/>
-        <property expression="$func:initialBackoffIntervalNanos" name="pulsar.initialBackoffIntervalNanos"/>
+        <property expression="$func:initialBackoffInterval" name="pulsar.initialBackoffInterval"/>
         <property expression="$func:listenerName" name="pulsar.listenerName"/>
         <property expression="$func:lookupTimeoutMs" name="pulsar.lookupTimeoutMs"/>
         <property expression="$func:maxLookupRedirects" name="pulsar.maxLookupRedirects"/>

@@ -1,14 +1,25 @@
+/*
+ *  Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ *  WSO2 LLC. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+
 package org.wso2.integration.connector.pojo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pulsar.client.api.ClientBuilder;
-import org.apache.pulsar.client.api.PulsarClient;
-import org.apache.pulsar.client.api.SizeUnit;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
-import org.wso2.integration.connector.utils.PulsarConstants;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PulsarConnectionConfig {
 
@@ -21,7 +32,7 @@ public class PulsarConnectionConfig {
     private Integer requestTimeoutMs;
     private Integer maxLookupRequest;
     private Integer keepAliveIntervalSeconds;
-    private Long maxBackoffIntervalNanos;
+    private Long maxBackoffInterval;
     private Integer concurrentLookupRequest;
     private Integer maxConcurrentLookupRequests;
     private Integer connectionMaxIdleSeconds;
@@ -29,7 +40,7 @@ public class PulsarConnectionConfig {
     private Integer connectionsPerBroker;
     private Boolean enableBusyWait;
     private Boolean enableTransaction;
-    private Long initialBackoffIntervalNanos;
+    private Long initialBackoffInterval;
     private String listenerName;
     private Integer lookupTimeoutMs;
     private Integer maxLookupRedirects;
@@ -134,15 +145,15 @@ public class PulsarConnectionConfig {
         }
     }
 
-    public Long getMaxBackoffIntervalNanos() {
+    public Long getMaxBackoffInterval() {
 
-        return maxBackoffIntervalNanos;
+        return maxBackoffInterval;
     }
 
-    public void setMaxBackoffIntervalNanos(String maxBackoffIntervalNanos) {
+    public void setMaxBackoffInterval(String maxBackoffInterval) {
 
-        if (StringUtils.isNotEmpty(maxBackoffIntervalNanos)) {
-            this.maxBackoffIntervalNanos = Long.parseLong(maxBackoffIntervalNanos);
+        if (StringUtils.isNotEmpty(maxBackoffInterval)) {
+            this.maxBackoffInterval = Long.parseLong(maxBackoffInterval);
         }
     }
 
@@ -230,15 +241,15 @@ public class PulsarConnectionConfig {
         }
     }
 
-    public Long getInitialBackoffIntervalNanos() {
+    public Long getInitialBackoffInterval() {
 
-        return initialBackoffIntervalNanos;
+        return initialBackoffInterval;
     }
 
-    public void setInitialBackoffIntervalNanos(String initialBackoffIntervalNanos) {
+    public void setInitialBackoffInterval(String initialBackoffInterval) {
 
-        if (StringUtils.isNotEmpty(initialBackoffIntervalNanos)) {
-            this.initialBackoffIntervalNanos = Long.parseLong(initialBackoffIntervalNanos);
+        if (StringUtils.isNotEmpty(initialBackoffInterval)) {
+            this.initialBackoffInterval = Long.parseLong(initialBackoffInterval);
         }
     }
 

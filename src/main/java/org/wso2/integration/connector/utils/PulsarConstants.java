@@ -1,3 +1,21 @@
+/*
+ *  Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ *  WSO2 LLC. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+
 package org.wso2.integration.connector.utils;
 
 public class PulsarConstants {
@@ -17,14 +35,14 @@ public class PulsarConstants {
     public static final String MAX_LOOKUP_REQUESTS = "maxLookupRequests";
     public static final String MAX_CONCURRENT_LOOKUP_REQUESTS = "maxConcurrentLookupRequests";
     public static final String KEEP_ALIVE_INTERVAL_SECONDS = "keepAliveIntervalSeconds";
-    public static final String MAX_BACKOFF_INTERVAL_NANOS = "maxBackoffIntervalNanos";
+    public static final String MAX_BACKOFF_INTERVAL = "maxBackoffInterval";
     public static final String CONCURRENT_LOOKUP_REQUEST = "concurrentLookupRequest";
     public static final String CONNECTION_MAX_IDLE_SECONDS = "connectionMaxIdleSeconds";
     public static final String CONNECTION_TIMEOUT_MS = "connectionTimeoutMs";
     public static final String CONNECTIONS_PER_BROKER = "connectionsPerBroker";
     public static final String ENABLE_BUSY_WAIT = "enableBusyWait";
     public static final String ENABLE_TRANSACTION = "enableTransaction";
-    public static final String INITIAL_BACKOFF_INTERVAL_NANOS = "initialBackoffIntervalNanos";
+    public static final String INITIAL_BACKOFF_INTERVAL = "initialBackoffInterval";
     public static final String LISTENER_NAME = "listenerName";
     public static final String LOOKUP_TIMEOUT_MS = "lookupTimeoutMs";
     public static final String MAX_LOOKUP_REDIRECTS = "maxLookupRedirects";

@@ -1,13 +1,13 @@
 {
   "connectorName": "pulsar",
-  "operationName": "publishMessages",
-  "title": "Publish Messages",
-  "help": "<h1>Publish Messages</h1> <b>The publishMessages operation allows you to publish messages to the Apache Pulsar brokers via topics.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/kafka-connector/kafka-connector-config/\"> More Help </a></li></ul>",
+  "operationName": "publishMessage",
+  "title": "Publish Message",
+  "help": "<h1>Publish Message</h1> <b>The publishMessage operation allows you to publish messages to the Apache Pulsar brokers via topics.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/kafka-connector/kafka-connector-config/\"> More Help </a></li></ul>",
   "elements": [
     {
       "type": "attributeGroup",
       "value": {
-        "groupName": "PublishMessages",
+        "groupName": "PublishMessage",
         "elements": [
           {
             "type": "attribute",
@@ -80,7 +80,7 @@
                     "name": "batchingEnabled",
                     "displayName": "Batching Enabled",
                     "inputType": "boolean",
-                    "defaultValue": "false",
+                    "defaultValue": "true",
                     "required": "false",
                     "helpTip": "Whether message batching is enabled for the producer. Batching can improve throughput by sending multiple messages in a single request."
                   }
@@ -91,7 +91,7 @@
                     "name": "batchingMaxMessages",
                     "displayName": "Batching Max Messages",
                     "inputType": "string",
-                    "defaultValue": "",
+                    "defaultValue": "1000",
                     "required": "false",
                     "validateType": "number",
                     "helpTip": "The maximum number of messages permitted in a batch.",
@@ -123,9 +123,9 @@
                   "type": "attribute",
                   "value": {
                     "name": "batchingMaxPublishDelayMicros",
-                    "displayName": "Batching Max Publish Delay (μs)",
+                    "displayName": "Batching Max Publish Delay (in microseconds)",
                     "inputType": "string",
-                    "defaultValue": "",
+                    "defaultValue": "1000",
                     "required": "false",
                     "validateType": "number",
                     "helpTip": "The maximum delay in microseconds for batching messages before they are published.",
@@ -357,7 +357,7 @@
                         "type": "attribute",
                         "value": {
                           "name": "deliverAfter",
-                          "displayName": "Deliver After (ms)",
+                          "displayName": "Deliver After (in milliseconds)",
                           "inputType": "stringOrExpression",
                           "defaultValue": "",
                           "required": "false",

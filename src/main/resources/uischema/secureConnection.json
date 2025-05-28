@@ -40,7 +40,7 @@
       "type": "attributeGroup",
       "value": {
         "groupName": "Authorization",
-        "isCollapsed": true,
+        "isCollapsed": false,
         "elements": [
           {
             "type": "attribute",
@@ -53,9 +53,7 @@
               "helpTip": "The authorization mechanism to use for authenticating with Pulsar. Supported values: None, JWT, TLS, OAuth2.",
               "comboValues": [
                 "None",
-                "JWT",
-                "TLS",
-                "OAuth2"
+                "JWT"
               ]
             }
           },
@@ -82,7 +80,7 @@
       "type": "attributeGroup",
       "value": {
         "groupName": "Security",
-        "isCollapsed": true,
+        "isCollapsed": false,
         "elements": [
           {
             "type": "attribute",
@@ -152,6 +150,7 @@
               "defaultValue": "",
               "required": "false",
               "helpTip": "Password for the TLS trust store.",
+              "placeholder": "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
               "enableCondition": [
                 {
                   "tlsAllowInsecureConnection": "false"
@@ -166,6 +165,7 @@
               "displayName": "TLS Protocols",
               "inputType": "stringOrExpression",
               "defaultValue": "",
+              "placeholder": "TLSv1.2,TLSv1.3",
               "required": "false",
               "helpTip": "Comma-separated list of enabled TLS protocols (e.g., TLSv1.2,TLSv1.3).",
               "enableCondition": [
@@ -283,7 +283,7 @@
                   "type": "attribute",
                   "value": {
                     "name": "requestTimeoutMs",
-                    "displayName": "Request Timeout (ms)",
+                    "displayName": "Request Timeout (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "validateType": "number",
                     "defaultValue": "",
@@ -371,25 +371,25 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "initialBackoffIntervalNanos",
-                    "displayName": "Initial Backoff Interval (in nanoseconds)",
+                    "name": "initialBackoffInterval",
+                    "displayName": "Initial Backoff Interval (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "validateType": "number",
                     "defaultValue": "",
                     "required": "false",
-                    "helpTip": "Initial backoff interval for reconnection attempts (in nanoseconds)."
+                    "helpTip": "Initial backoff interval for reconnection attempts (in milliseconds)."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "maxBackoffIntervalNanos",
-                    "displayName": "Max Backoff Interval (in nanoseconds)",
+                    "name": "maxBackoffInterval",
+                    "displayName": "Max Backoff Interval (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "validateType": "number",
                     "required": "false",
-                    "helpTip": "Maximum backoff interval for reconnection attempts (in nanoseconds)."
+                    "helpTip": "Maximum backoff interval for reconnection attempts (in milliseconds)."
                   }
                 }
               ]

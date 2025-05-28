@@ -20,7 +20,6 @@ package org.wso2.integration.connector;
 
 import org.apache.synapse.ManagedLifecycle;
 import org.apache.synapse.MessageContext;
-import org.apache.synapse.SynapseException;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.wso2.integration.connector.connection.PulsarConnection;
 import org.wso2.integration.connector.exception.PulsarConnectorException;
@@ -46,7 +45,6 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
                 PulsarConnection pulsarConnection = new PulsarConnection(messageContext, configuration);
                 handler.createConnection(PulsarConstants.CONNECTOR_NAME, connectionName, pulsarConnection);
             }
-
         } catch (PulsarConnectorException e) {
             handleException("Pulsar producer connector: Failed to create the Pulsar connection", e, messageContext);
         } catch (Exception e) {
@@ -54,7 +52,8 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         }
     }
 
-    private ConnectionConfiguration getConnectionConfigFromContext(MessageContext messageContext) throws PulsarConnectorException {
+    private ConnectionConfiguration getConnectionConfigFromContext(MessageContext messageContext)
+            throws PulsarConnectorException {
 
         ConnectionConfiguration configuration = new ConnectionConfiguration();
         configuration.setConnectionName((String) getParameter(messageContext, PulsarConstants.CONNECTION_NAME));
@@ -71,8 +70,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
 
         String authType = (String) getParameter(messageContext, PulsarConstants.AUTH_TYPE);
         if (authType != null) {
-
-            switch (authType) {
+            switch (authType.toUpperCase()) {
                 case PulsarConstants.AUTH_JWT:
                     JWTAuthConfig jwtAuthConfig = new JWTAuthConfig();
                     jwtAuthConfig.setToken((String) getParameter(messageContext, PulsarConstants.JWT_TOKEN));
@@ -88,7 +86,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
                     // Handle no authentication
                     break;
                 default:
-                    throw new SynapseException("Unsupported authentication type: " + authType);
+                    throw new PulsarConnectorException("Unsupported authentication type: " + authType);
             }
         }
 
@@ -111,7 +109,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         config.setRequestTimeoutMs((String) getParameter(messageContext, PulsarConstants.REQUEST_TIMEOUT_MS));
         config.setMaxLookupRequest((String) getParameter(messageContext, PulsarConstants.MAX_LOOKUP_REQUESTS));
         config.setKeepAliveIntervalSeconds((String) getParameter(messageContext, PulsarConstants.KEEP_ALIVE_INTERVAL_SECONDS));
-        config.setMaxBackoffIntervalNanos((String) getParameter(messageContext, PulsarConstants.MAX_BACKOFF_INTERVAL_NANOS));
+        config.setMaxBackoffInterval((String) getParameter(messageContext, PulsarConstants.MAX_BACKOFF_INTERVAL));
         config.setConcurrentLookupRequest((String) getParameter(messageContext, PulsarConstants.CONCURRENT_LOOKUP_REQUEST));
         config.setMaxConcurrentLookupRequests((String) getParameter(messageContext, PulsarConstants.MAX_CONCURRENT_LOOKUP_REQUESTS));
         config.setConnectionMaxIdleSeconds((String) getParameter(messageContext, PulsarConstants.CONNECTION_MAX_IDLE_SECONDS));
@@ -119,7 +117,7 @@ public class PulsarConfig extends AbstractConnector implements ManagedLifecycle 
         config.setConnectionsPerBroker((String) getParameter(messageContext, PulsarConstants.CONNECTIONS_PER_BROKER));
         config.setEnableBusyWait((String) getParameter(messageContext, PulsarConstants.ENABLE_BUSY_WAIT));
         config.setEnableTransaction((String) getParameter(messageContext, PulsarConstants.ENABLE_TRANSACTION));
-        config.setInitialBackoffIntervalNanos((String) getParameter(messageContext, PulsarConstants.INITIAL_BACKOFF_INTERVAL_NANOS));
+        config.setInitialBackoffInterval((String) getParameter(messageContext, PulsarConstants.INITIAL_BACKOFF_INTERVAL));
         config.setListenerName((String) getParameter(messageContext, PulsarConstants.LISTENER_NAME));
         config.setLookupTimeoutMs((String) getParameter(messageContext, PulsarConstants.LOOKUP_TIMEOUT_MS));
         config.setMaxLookupRedirects((String) getParameter(messageContext, PulsarConstants.MAX_LOOKUP_REDIRECTS));

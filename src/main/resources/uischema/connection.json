@@ -76,7 +76,7 @@
                   "type": "attribute",
                   "value": {
                     "name": "requestTimeoutMs",
-                    "displayName": "Request Timeout (ms)",
+                    "displayName": "Request Timeout (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "validateType": "number",
                     "defaultValue": "",
@@ -164,25 +164,25 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "initialBackoffIntervalNanos",
-                    "displayName": "Initial Backoff Interval (in nanoseconds)",
+                    "name": "initialBackoffInterval",
+                    "displayName": "Initial Backoff Interval (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "validateType": "number",
                     "defaultValue": "",
                     "required": "false",
-                    "helpTip": "Initial backoff interval for reconnection attempts (in nanoseconds)."
+                    "helpTip": "Initial backoff interval for reconnection attempts (in milliseconds)."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "maxBackoffIntervalNanos",
-                    "displayName": "Max Backoff Interval (in nanoseconds)",
+                    "name": "maxBackoffInterval",
+                    "displayName": "Max Backoff Interval (in milliseconds)",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "validateType": "number",
                     "required": "false",
-                    "helpTip": "Maximum backoff interval for reconnection attempts (in nanoseconds)."
+                    "helpTip": "Maximum backoff interval for reconnection attempts (in milliseconds)."
                   }
                 }
               ]

@@ -1,3 +1,21 @@
+/*
+ *  Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ *  WSO2 LLC. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+
 package org.wso2.integration.connector.connection;
 
 import org.apache.pulsar.client.api.ClientBuilder;
@@ -10,6 +28,7 @@ import org.wso2.integration.connector.utils.PulsarConstants;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class PulsarConnectionSetup {
 
@@ -104,8 +123,8 @@ public class PulsarConnectionSetup {
         if (connectionConfig.getKeepAliveIntervalSeconds() != null) {
             clientBuilder.keepAliveInterval(connectionConfig.getKeepAliveIntervalSeconds(), java.util.concurrent.TimeUnit.SECONDS);
         }
-        if (connectionConfig.getMaxBackoffIntervalNanos() != null) {
-            clientBuilder.maxBackoffInterval(connectionConfig.getMaxBackoffIntervalNanos(), java.util.concurrent.TimeUnit.NANOSECONDS);
+        if (connectionConfig.getMaxBackoffInterval() != null) {
+            clientBuilder.maxBackoffInterval(connectionConfig.getMaxBackoffInterval(), TimeUnit.MILLISECONDS);
         }
         if (connectionConfig.getConcurrentLookupRequest() != null) {
             configMap.put(PulsarConstants.CONCURRENT_LOOKUP_REQUEST, connectionConfig.getConcurrentLookupRequest());
@@ -128,8 +147,8 @@ public class PulsarConnectionSetup {
         if (connectionConfig.getEnableTransaction() != null) {
             clientBuilder.enableTransaction(connectionConfig.getEnableTransaction());
         }
-        if (connectionConfig.getInitialBackoffIntervalNanos() != null) {
-            clientBuilder.startingBackoffInterval(connectionConfig.getInitialBackoffIntervalNanos(), java.util.concurrent.TimeUnit.NANOSECONDS);
+        if (connectionConfig.getInitialBackoffInterval() != null) {
+            clientBuilder.startingBackoffInterval(connectionConfig.getInitialBackoffInterval(), TimeUnit.MILLISECONDS);
         }
         if (connectionConfig.getListenerName() != null) {
             clientBuilder.listenerName(connectionConfig.getListenerName());

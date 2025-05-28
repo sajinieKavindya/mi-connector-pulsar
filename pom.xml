@@ -4,9 +4,9 @@
   <groupId>org.wso2.integration.connector</groupId>
   <artifactId>mi-connector-pulsar</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
 
-  <name>esb-connector-pulsar</name>
+  <name>mi-connector-pulsar</name>
   <url>http://wso2.org</url>
   <modelVersion>4.0.0</modelVersion>
 

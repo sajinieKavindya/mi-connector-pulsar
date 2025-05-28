@@ -19,7 +19,7 @@
 
 <component name="pulsar_produce" type="synapse/template">
     <subComponents>
-        <component name="publishMessages">
+        <component name="publishMessage">
             <file>pulsarProduceTemplate.xml</file>
             <description>Send the messages to the Apache Pulsar brokers</description>
         </component>

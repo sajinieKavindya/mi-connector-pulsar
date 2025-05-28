@@ -1,10 +1,25 @@
+/*
+ *  Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ *  WSO2 LLC. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+
 package org.wso2.integration.connector.pojo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pulsar.client.api.ClientBuilder;
-import org.wso2.integration.connector.utils.PulsarConstants;
 
-import java.util.Map;
 import java.util.Set;
 
 public class PulsarSecureConnectionConfig extends PulsarConnectionConfig {
@@ -20,55 +35,6 @@ public class PulsarSecureConnectionConfig extends PulsarConnectionConfig {
     private String tlsTrustStorePassword;
     private String tlsTrustStoreType;
     private Integer autoCertRefreshSeconds;
-
-//    public ClientBuilder constructClientBuilder(ClientBuilder builder) {
-//        ClientBuilder clientBuilder = super.constructClientBuilder(builder);
-//
-//        if (useTls != null) {
-//            clientBuilder.enableTls(useTls);
-//        }
-//        if (tlsAllowInsecureConnection != null) {
-//            clientBuilder.allowTlsInsecureConnection(tlsAllowInsecureConnection);
-//        }
-//        if (enableTlsHostnameVerification != null) {
-//            clientBuilder.enableTlsHostnameVerification(enableTlsHostnameVerification);
-//        }
-//        if (tlsTrustCertsFilePath != null) {
-//            clientBuilder.tlsTrustCertsFilePath(tlsTrustCertsFilePath);
-//        }
-//        if (tlsProtocols != null) {
-//            clientBuilder.tlsProtocols(tlsProtocols);
-//        }
-//        if (tlsCiphers != null) {
-//            clientBuilder.tlsCiphers(tlsCiphers);
-//        }
-//        if (useKeyStoreTls != null) {
-//            clientBuilder.useKeyStoreTls(useKeyStoreTls);
-//        }
-//        if (tlsTrustStorePath != null) {
-//            clientBuilder.tlsTrustStorePath(tlsTrustStorePath);
-//        }
-//        if (tlsTrustStorePassword != null) {
-//            clientBuilder.tlsTrustStorePassword(tlsTrustStorePassword);
-//        }
-//        if (tlsTrustStoreType != null) {
-//            clientBuilder.tlsTrustStoreType(tlsTrustStoreType);
-//        }
-//        if (autoCertRefreshSeconds != null) {
-//            clientBuilder.autoCertRefreshSeconds(autoCertRefreshSeconds);
-//        }
-//
-////        loadConfig(PulsarConstants.USE_TLS, useTls, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_ALLOW_INSECURE_CONNECTION, tlsAllowInsecureConnection, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_HOSTNAME_VERIFICATION_ENABLE, enableTlsHostnameVerification, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_TRUST_CERTS_FILE_PATH, tlsTrustCertsFilePath, connectionConfig);
-////        loadConfig(PulsarConstants.USE_KEY_STORE_TLS, useKeyStoreTls, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_TRUST_STORE_PATH, tlsTrustStorePath, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_TRUST_STORE_PASSWORD, tlsTrustStorePassword, connectionConfig);
-////        loadConfig(PulsarConstants.TLS_TRUST_STORE_TYPE, tlsTrustStoreType, connectionConfig);
-////        loadConfig(PulsarConstants.AUTO_CERT_REFRESH_SECONDS, autoCertRefreshSeconds, connectionConfig);
-//        return clientBuilder;
-//    }
 
     public Boolean useTls() {
         return useTls;

@@ -1,3 +1,21 @@
+/*
+ *  Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ *  WSO2 LLC. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+
 package org.wso2.integration.connector;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,7 +27,6 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.transport.MessageFormatter;
 import org.apache.axis2.transport.base.BaseUtils;
 import org.apache.axis2.util.MessageProcessorSelector;
-import org.apache.bcel.generic.IF_ACMPEQ;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.pulsar.client.api.MessageId;
 import org.apache.pulsar.client.api.Producer;
@@ -21,7 +38,6 @@ import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.wso2.integration.connector.connection.PulsarConnection;
-import org.wso2.integration.connector.core.AbstractConnector;
 import org.wso2.integration.connector.core.AbstractConnectorOperation;
 import org.wso2.integration.connector.core.connection.ConnectionHandler;
 import org.wso2.integration.connector.core.ConnectException;
@@ -42,7 +58,6 @@ import java.util.concurrent.TimeUnit;
 public class PulsarProducer extends AbstractConnectorOperation {
 
     Map<ProducerKey, Producer<String>> producerCache = new ConcurrentHashMap<>();
-
 
     @Override
     public void execute(MessageContext messageContext, String responseVariable, Boolean overwriteBody)

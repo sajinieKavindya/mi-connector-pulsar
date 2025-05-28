@@ -24,5 +24,14 @@ hs_err_pid*
 replay_pid*
 
 # ignore target directories
-target/
-*.*~
+/target
+
+# Ignore Intellij-IDEA files
+*.iml
+*.ipr
+*.iws
+*.classpath
+*.settings
+*.project
+*.idea
+.DS_Store
